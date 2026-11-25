@@ -15,11 +15,11 @@
   var maxFp = 0;
   var titleBase = "澄栖 — 把夜晚，还给安静";
 
-  var navMap = [
-    { el: "nav-product", steps: ["产品", "产品", "门口", "门口", "它在"], hrefs: ["#product", "#product", "#product", "#break", "#break"] },
-    { el: "nav-design",  steps: ["设计", "设计", "别看", "别看", "别看"], hrefs: ["#craft", "#craft", "#craft", "#notice", "#notice"] },
-    { el: "nav-story",   steps: ["故事", "故事", "听过", "安静", "安静"], hrefs: ["#story", "#story", "#story", "#traces", "#finale"] },
-    { el: "nav-order",   steps: ["订购", "订购", "留下", "留下", "留下"], hrefs: ["#plans", "#plans", "#plans", "#plans", "#finale"] }
+  var navHrefs = [
+    { el: "nav-product", hrefs: ["#product", "#product", "#product", "#break", "#break"] },
+    { el: "nav-design",  hrefs: ["#craft", "#craft", "#craft", "#notice", "#notice"] },
+    { el: "nav-story",   hrefs: ["#story", "#story", "#story", "#traces", "#finale"] },
+    { el: "nav-order",   hrefs: ["#plans", "#plans", "#plans", "#plans", "#finale"] }
   ];
 
   var titles = [
@@ -42,53 +42,50 @@
     return el.getBoundingClientRect().top + window.scrollY;
   }
 
-  /* Stage is driven by chapter sections, not raw page percent,
-     so the long normal marketing run stays clean. */
-  function stageFromDOM() {
-    var st = 1;
-    var trigger = window.innerHeight * 0.68;
-    var nodes = document.querySelectorAll("[data-chapter]");
-    for (var i = 0; i < nodes.length; i++) {
-      var ch = parseInt(nodes[i].getAttribute("data-chapter"), 10);
-      if (nodes[i].getBoundingClientRect().top < trigger) {
-        if (ch > st) st = ch;
-      }
-    }
-    return st;
+  function stageFromU(v) {
+    if (v < 0.18) return 1;
+    if (v < 0.42) return 2;
+    if (v < 0.60) return 3;
+    if (v < 0.78) return 4;
+    return 5;
   }
 
-  /* Visual intensity only starts when the traces chapter is reached. */
+  /* Intensity begins in mid-to-late marketing (stories onward),
+     then keeps climbing through traces, notice, break, and finale. */
   function uFromDOM() {
-    var y = window.scrollY + window.innerHeight * 0.65;
+    /* Probe the upper reading line, not mid-viewport, so short sections
+       do not leap to their end the moment their heading appears. */
+    var y = window.scrollY + window.innerHeight * 0.36;
+    var t0 = sectionTop("stories");
     var t2 = sectionTop("traces");
     var t3 = sectionTop("notice");
     var t4 = sectionTop("break");
     var t5 = sectionTop("finale");
     var end = Math.max(document.documentElement.scrollHeight, t5 + window.innerHeight);
-    if (!t2) return 0;
-    if (y <= t2) return 0;
-    if (y < t3 || !t3) return 0.00 + clamp((y - t2) / Math.max(1, t3 - t2), 0, 1) * 0.10;
-    if (y < t4 || !t4) return 0.10 + clamp((y - t3) / Math.max(1, t4 - t3), 0, 1) * 0.38;
-    if (y < t5 || !t5) return 0.48 + clamp((y - t4) / Math.max(1, t5 - t4), 0, 1) * 0.28;
-    return 0.76 + clamp((y - t5) / Math.max(1, end - t5), 0, 1) * 0.24;
+    if (!t0 || y <= t0) return 0;
+    if (y < t2 || !t2) return 0.00 + clamp((y - t0) / Math.max(1, t2 - t0), 0, 1) * 0.30;
+    if (y < t3 || !t3) return 0.30 + clamp((y - t2) / Math.max(1, t3 - t2), 0, 1) * 0.18;
+    if (y < t4 || !t4) return 0.48 + clamp((y - t3) / Math.max(1, t4 - t3), 0, 1) * 0.16;
+    if (y < t5 || !t5) return 0.64 + clamp((y - t4) / Math.max(1, t5 - t4), 0, 1) * 0.16;
+    return 0.80 + clamp((y - t5) / Math.max(1, end - t5), 0, 1) * 0.20;
   }
 
   function updateNav(st) {
     var i = st - 1;
-    navMap.forEach(function (item) {
+    navHrefs.forEach(function (item) {
       var el = document.getElementById(item.el);
-      if (!el) return;
-      setText(el, item.steps[i]);
-      if (item.hrefs && item.hrefs[i]) el.setAttribute("href", item.hrefs[i]);
+      if (el && item.hrefs && item.hrefs[i]) el.setAttribute("href", item.hrefs[i]);
     });
     if (document.title !== titles[i]) document.title = titles[i];
   }
 
-  function morphTexts(st) {
-    document.querySelectorAll("[data-morph]").forEach(function (el) {
-      var at = parseInt(el.getAttribute("data-morph"), 10);
-      var to = el.getAttribute("data-to");
-      if (st >= at && to) setText(el, to);
+  function applyLiveMorphs(vu) {
+    document.querySelectorAll(".live-morph").forEach(function (el) {
+      var start = parseFloat(el.getAttribute("data-start") || "0");
+      var span = parseFloat(el.getAttribute("data-span") || "0.14");
+      if (!(span > 0)) span = 0.14;
+      var p = clamp((vu - start) / span, 0, 1);
+      el.style.setProperty("--mp", p.toFixed(4));
     });
   }
 
@@ -227,20 +224,22 @@
   }
 
   function bgT(v) {
-    if (v < 0.10) return v * 0.28;
-    if (v < 0.20) return 0.028 + (v - 0.10) / 0.10 * 0.12;
-    if (v < 0.36) return 0.148 + (v - 0.20) / 0.16 * 0.70;
-    return 0.848 + (v - 0.36) / 0.64 * 0.152;
+    if (v < 0.16) return v / 0.16 * 0.04;
+    if (v < 0.32) return 0.04 + (v - 0.16) / 0.16 * 0.12;
+    if (v < 0.48) return 0.16 + (v - 0.32) / 0.16 * 0.22;
+    if (v < 0.64) return 0.38 + (v - 0.48) / 0.16 * 0.42;
+    return 0.80 + (v - 0.64) / 0.36 * 0.20;
   }
+
   function inkT(v) {
-    return clamp((v - 0.22) / 0.12, 0, 1);
+    return clamp((v - 0.52) / 0.16, 0, 1);
   }
 
   function tick() {
-    var stNow = stageFromDOM();
     var uNow = uFromDOM();
-    if (stNow > maxStage) maxStage = stNow;
     if (uNow > maxU) maxU = uNow;
+    var stNow = stageFromU(maxU);
+    if (stNow > maxStage) maxStage = stNow;
     var fpNow = finaleProgress();
     if (fpNow > maxFp) maxFp = fpNow;
 
@@ -252,7 +251,7 @@
     root.style.setProperty("--ink-t", inkT(u).toFixed(4));
     root.setAttribute("data-stage", String(stage));
     updateNav(stage);
-    morphTexts(stage);
+    applyLiveMorphs(u);
     applyFinale(Math.max(fpNow, maxFp));
     maybeFlash(stage);
     maybeShake(stage);
@@ -269,7 +268,6 @@
     });
   }
 
-  /* Slight upward resistance after things have turned, never a hard lock. */
   function onWheel(e) {
     if (reduceMotion || maxStage < 3) return;
     if (e.deltaY >= 0) return;
@@ -368,6 +366,10 @@
       jumpTo(document.getElementById("story"), null);
     } else if (token === "scenes") {
       jumpTo(document.getElementById("scenes"), null);
+    } else if (token === "stories") {
+      jumpTo(document.getElementById("stories"), null);
+    } else if (token === "plans") {
+      jumpTo(document.getElementById("plans"), null);
     } else if (token === "2" || token === "quiet" || token === "traces") {
       jumpTo(document.getElementById("traces"), null);
     } else if (token === "3" || token === "notice") {
