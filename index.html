@@ -1,0 +1,519 @@
+<!DOCTYPE html>
+<html lang="zh-Hans" data-stage="1">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>澄栖 — 把夜晚，还给安静</title>
+  <meta name="description" content="澄栖 N1 夜间安光。感知你的作息，只在需要时亮起。光谱经过睡眠节律校准，光线停在恰好的温度。">
+  <meta name="robots" content="noindex, nofollow">
+  <link rel="icon" href="images/favicon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="css/main.css">
+</head>
+<body>
+  <div id="flash" aria-hidden="true"></div>
+  <div id="cursor-ghost" aria-hidden="true"></div>
+  <p class="leave-hint">门还开着</p>
+
+  <audio id="a-wind" class="stem" src="audio/wind.mp3" loop preload="auto"></audio>
+  <audio id="a-drone" class="stem" src="audio/drone.mp3" loop preload="auto"></audio>
+  <audio id="a-steps" class="stem" src="audio/steps.mp3" loop preload="auto"></audio>
+  <audio id="a-static" class="stem" src="audio/static.mp3" loop preload="auto"></audio>
+  <audio id="a-sting" class="stem" src="audio/sting.mp3" preload="auto"></audio>
+
+  <header id="site-nav">
+    <a class="logo" href="#top">
+      <svg viewBox="0 0 48 48" aria-hidden="true">
+        <ellipse cx="24" cy="25.5" rx="11" ry="13" fill="none" stroke="currentColor" stroke-width="2"/>
+        <rect x="15.5" y="24.6" width="17" height="1.8" rx="0.9" fill="currentColor"/>
+      </svg>
+      <span class="logo-word">澄栖</span>
+    </a>
+    <nav class="links" aria-label="页面章节">
+      <a href="#product" id="nav-product">产品</a>
+      <a href="#craft" id="nav-design">设计</a>
+      <a href="#story" id="nav-story">故事</a>
+      <a href="#plans" id="nav-order">订购</a>
+    </nav>
+    <button type="button" id="sound-toggle" aria-pressed="false" aria-label="声音开关，默认关闭">声音 关</button>
+  </header>
+
+  <main id="top">
+    <section id="hero" data-chapter="1">
+      <div class="hero-copy">
+        <p class="kicker">CHENGQI&nbsp;&nbsp;·&nbsp;&nbsp;N1</p>
+        <h1 data-morph="3" data-from="把夜晚，还给安静。" data-to="夜还很长。不要停。">把夜晚，<br>还给安静。</h1>
+        <p class="lede" data-morph="3" data-from="澄栖 N1 感知你的作息，只在真正需要时亮起。光谱经过睡眠节律校准，光线停在恰好的温度。" data-to="它感知你的作息，比你更早知道你会醒。请继续向下。">澄栖 N1 感知你的作息，只在真正需要时亮起。光谱经过睡眠节律校准，光线停在恰好的温度。</p>
+        <a class="btn" href="#product" data-morph="3" data-from="了解澄栖 N1" data-to="继续向下">了解澄栖 N1</a>
+      </div>
+      <figure class="hero-visual pair">
+        <img src="images/hero-bedroom.jpg" width="1280" height="720" alt="暮色中的卧室：低矮的橡木平台床、象牙色亚麻寝具，床头柜上是一枚卵形陶瓷夜灯，细细一条暖光。落地窗外星空宁静。">
+        <img class="after" src="images/room-cold.jpg" width="1280" height="720" alt="">
+        <figcaption class="caption" data-morph="4" data-from="澄栖 N1，在夜色将至时。" data-to="灯还亮着。门没有锁。">澄栖 N1，在夜色将至时。</figcaption>
+      </figure>
+    </section>
+
+    <section id="product" data-chapter="1">
+      <figure class="photo">
+        <img src="images/product-n1.jpg" width="1152" height="864" alt="澄栖 N1 特写：哑光暖灰陶瓷壳体，一条水平细光缝泛出琥珀色，旁边是亚麻封面的书与一只小陶杯。">
+      </figure>
+      <div class="copy">
+        <p class="kicker">PRODUCT</p>
+        <h2 data-morph="4" data-from="澄栖 N1" data-to="它一直在">澄栖 N1</h2>
+        <p class="product-sub">夜间安光</p>
+        <p data-morph="3" data-from="大多数夜灯只是把白昼延长。澄栖 N1 相反：它让暗成为一个可以停留的地方。" data-to="大多数夜灯只是把白昼延长。澄栖让暗成为一个可以停留的地方。也让你停留。">大多数夜灯只是把白昼延长。澄栖 N1 相反：它让暗成为一个可以停留的地方。</p>
+        <p>一体成型的陶瓷壳体里，只有一条细光。没有指示灯，没有屏幕，没有需要你学习的模式。你走进黑夜，它自己会决定亮到哪里。</p>
+        <ul class="spec-list">
+          <li><span>节律光谱</span><strong data-morph="4" data-from="1800K — 2700K" data-to="————">1800K — 2700K</strong></li>
+          <li><span>工作噪音</span><strong>&lt; 16 dB</strong></li>
+          <li><span>壳体</span><strong>陶瓷一体成型</strong></li>
+          <li><span>感应</span><strong data-morph="4" data-from="起夜先照足下" data-to="它比你更早到">起夜先照足下</strong></li>
+        </ul>
+      </div>
+    </section>
+
+    <section id="story" data-chapter="1">
+      <div class="split">
+        <figure class="photo">
+          <img src="images/studio-atelier.jpg" width="1280" height="720" alt="澄栖工房：橡木长桌上排列着几枚卵形陶瓷灯体，其中一枚已亮起细光，远处有人在塑形陶土。">
+        </figure>
+        <div class="prose">
+          <p class="kicker">THE HOUSE</p>
+          <h2>夜晚不该被照亮，只该被安放。</h2>
+          <p>澄栖始于一个很普通的夜晚。我们在自己家里起身，摸到开关的瞬间，房间被瞬间推回白昼。那不是光的问题，是秩序被打扰了。</p>
+          <p>后来的两年里，我们把这个问题带回工房。走访陶瓷作坊，试过玻璃、金属与石材，最后留下一枚没有接缝的壳，和一条只有两毫米宽的光。澄栖二字，是我们给自己的约定：在夜里，把人好好安放。</p>
+          <p data-morph="4" data-from="每一枚 N1 仍在杭州近郊的工房完成终检。烧成、修坯、校光，都由同一组人经手。我们宁可做得慢一些。" data-to="每一枚 N1 仍在完成终检。我们比你更熟悉这间屋子的路径。">每一枚 N1 仍在杭州近郊的工房完成终检。烧成、修坯、校光，都由同一组人经手。我们宁可做得慢一些。</p>
+        </div>
+      </div>
+    </section>
+
+    <section id="craft" data-chapter="1">
+      <div class="section-head">
+        <p class="kicker">CRAFT &amp; SPECTRUM</p>
+        <h2>一只壳，一条光。</h2>
+      </div>
+      <div class="split" style="padding-top:0;">
+        <figure class="photo">
+          <img src="images/craft-ceramic.jpg" width="1152" height="864" alt="陶瓷壳体的微距：哑光暖灰表面有细小的自然斑点，水平光缝里是均匀的琥珀色。">
+        </figure>
+        <div class="prose">
+          <h3>材质</h3>
+          <p>壳体以高温素烧陶瓷一体成型，手感接近未上釉的石头：温润、沉，并会慢慢带上室温。它没有按钮，也没有需要擦亮的涂层。唯一的开口，是那条被反复校过的细缝。</p>
+          <h3>光谱</h3>
+          <p>N1 的色温在 1800K 至 2700K 之间缓慢过渡，并减去扰眠的短波蓝光。它不为把房间照得像白天，只为让你看清脚下，同时让眼睛仍停留在夜晚该有的节律里。</p>
+          <p>光在腔体内先被混合，再从细缝送出，因此边缘柔和，几乎看不到灯珠的存在。亮度会随环境与人的停留自动收束，你不必去学习任何模式。</p>
+        </div>
+      </div>
+    </section>
+
+    <section id="features" data-chapter="1">
+      <div class="section-head">
+        <p class="kicker">DESIGN</p>
+        <h2 data-morph="3" data-from="光，只亮到恰好。" data-to="光，还亮着。">光，只亮到恰好。</h2>
+      </div>
+      <div class="feature-grid">
+        <article class="feature">
+          <img src="images/feature-spectrum.jpg" width="1152" height="864" alt="暖黄细光从陶瓷灯体洒上象牙色寝具与墙面，形成柔和的睡眠光谱渐变。">
+          <h3>节律光谱</h3>
+          <p>减去扰眠的短波蓝光，色温在 1800K 至 2700K 之间缓慢过渡。它不叫醒你，只是陪着你。</p>
+        </article>
+        <article class="feature">
+          <img src="images/feature-path.jpg" width="1152" height="864" alt="同一住宅的走廊：澄栖 N1 置于矮柜，暖光沿橡木地板铺向卧室门口，走廊空无一人。">
+          <h3>无感点亮</h3>
+          <p data-morph="4" data-from="人体与环境感知在极低功耗下持续工作。起夜时，光先出现在地面，而不是眼前。回到床上，它会在你重新躺下之前熄掉。" data-to="感应一直在工作。起夜时，光先出现在地面。有时，它会比你更早到达门口。">人体与环境感知在极低功耗下持续工作。起夜时，光先出现在地面，而不是眼前。回到床上，它会在你重新躺下之前熄掉。</p>
+        </article>
+        <article class="feature">
+          <img src="images/lifestyle-reading.jpg" width="1152" height="864" alt="一位成年女性靠在床头阅读，床头柜上的澄栖 N1 发出安静的暖光。">
+          <h3>声场静音</h3>
+          <p>工作噪音低于 16 分贝，比大多数人的呼吸更轻。澄栖相信，真正的安静里不该有机器的存在感。</p>
+        </article>
+      </div>
+    </section>
+
+    <section id="scenes" data-chapter="1">
+      <div class="section-head">
+        <p class="kicker">AT HOME</p>
+        <h2>它住在夜晚经过的地方。</h2>
+      </div>
+      <div class="scene-grid">
+        <figure class="scene">
+          <img src="images/lifestyle-reading.jpg" width="1152" height="864" alt="卧室里，灯只照亮书页和床头一小片区域。">
+          <figcaption>卧室 · 光停在书页与床沿</figcaption>
+        </figure>
+        <figure class="scene">
+          <img src="images/study-desk.jpg" width="1280" height="720" alt="书房的橡木书桌，澄栖 N1 与笔记本、钢笔、陶杯并置，窗外是黄昏。">
+          <figcaption>书房 · 晚间书写，不把白昼延长</figcaption>
+        </figure>
+        <figure class="scene scene-wide">
+          <img src="images/feature-path.jpg" width="1152" height="864" alt="走廊里的澄栖 N1 把一条暖光铺向卧室门口。">
+          <figcaption data-morph="4" data-from="走廊 · 起夜时，足下先行" data-to="走廊 · 它比你更早到达门口">走廊 · 起夜时，足下先行</figcaption>
+        </figure>
+      </div>
+    </section>
+
+    <section id="editorial" data-chapter="1" class="section-block">
+      <div class="section-head">
+        <p class="kicker">《居间》十一月刊</p>
+        <h2>一盏不愿多说话的灯。</h2>
+      </div>
+      <div class="editorial-body">
+        <p class="byline">文 / 编辑部探访 &nbsp;·&nbsp; 工房纪行</p>
+        <p class="pull">「如果一盏灯需要说明书，它大概还不够安静。」</p>
+        <p>主创设计师周衡把这句话写在工房墙边的一张便条上。探访那天是午后，北向的窗口很亮，长桌上并排放着尚未开缝的素坯，和一枚已经亮着的 N1。差别只在一条光。周衡说，他们把前三年里做过的二十二个方案几乎全部否决了，不是因为不够亮，而是因为仍然太像「一盏灯」。</p>
+        <p>澄栖选择陶瓷，并非为了显得更像器物，而是因为这种材料会吸收温度，也愿意把光在内部先完成混合。「金属太锋利，玻璃太透明。夜晚需要的是一种不提醒你的存在。」校准光谱的工作被他形容得更平淡：反复对比色卡，请同事在夜里走同一段走廊，问的不是「看见了吗」，而是「有没有被叫醒」。</p>
+        <p>离开前，我们问，澄栖要做的是不是一款更克制的消费品。周衡想了想，摇头：「我们只是希望，人在自己家里，还能把夜晚过完。」</p>
+      </div>
+    </section>
+
+    <section id="stories" data-chapter="1" class="section-block">
+      <div class="section-head">
+        <p class="kicker">STORIES</p>
+        <h2>住过之后。</h2>
+      </div>
+      <div class="story-grid">
+        <article class="story-feature">
+          <img src="images/avatar-01.jpg" width="1024" height="1024" alt="住户林唯的肖像，成年女性，浅色毛衣，神情温和。">
+          <div>
+            <p class="kicker">林唯 · 上海</p>
+            <blockquote data-morph="3" data-from="以前起夜要摸开关，一下子全亮。家里另外两个人也会被吵醒。换上 N1 之后，只有脚边有一层很薄的光，回床上又暗下去。连续用了两个月，我觉得家里终于像夜里该有的样子。" data-to="以前起夜要摸开关。现在不必了。它会先替我走到门口。有时我还没起身，灯已经亮了。">以前起夜要摸开关，一下子全亮。家里另外两个人也会被吵醒。换上 N1 之后，只有脚边有一层很薄的光，回床上又暗下去。连续用了两个月，我觉得家里终于像夜里该有的样子。</blockquote>
+          </div>
+        </article>
+      </div>
+      <div class="review-grid" style="margin-top:2rem;">
+        <article class="review">
+          <header>
+            <img src="images/avatar-02.jpg" width="1024" height="1024" alt="住户陈屿的肖像，成年男性，深色衬衫，安静微笑。">
+            <div>
+              <div class="who">陈屿</div>
+              <div class="where">杭州</div>
+            </div>
+          </header>
+          <blockquote data-morph="3" data-from="光谱很稳，不像普通暖光灯那样发闷。连续用了三个星期，入睡比以前快，也没有半夜被指示灯刺醒的问题。" data-to="光谱很稳。入睡比以前快。有时会觉得灯比我醒得更早。">光谱很稳，不像普通暖光灯那样发闷。连续用了三个星期，入睡比以前快，也没有半夜被指示灯刺醒的问题。</blockquote>
+        </article>
+        <article class="review">
+          <header>
+            <img src="images/avatar-03.jpg" width="1024" height="1024" alt="住户许南的肖像，成年女性，藕粉色上衣，浅浅微笑。">
+            <div>
+              <div class="who">许南</div>
+              <div class="where">苏州</div>
+            </div>
+          </header>
+          <blockquote>设计很克制，放在床头也不抢。双栖套装把走廊和卧室接上之后，夜间走路变得很顺，几乎感觉不到灯在切换。</blockquote>
+        </article>
+        <article class="review">
+          <header>
+            <img src="images/avatar-04.jpg" width="1024" height="1024" alt="住户赵临的肖像，成年男性，橄榄色毛衣，温和微笑。">
+            <div>
+              <div class="who">赵临</div>
+              <div class="where">成都</div>
+            </div>
+          </header>
+          <blockquote>我把它放在书桌，晚上处理未写完的信。光线只够看清纸面，窗外的夜还在，这个分寸拿得很准。</blockquote>
+        </article>
+        <article class="review">
+          <header>
+            <img src="images/avatar-05.jpg" width="1024" height="1024" alt="住户方宜的肖像，成年女性，深色衬衫，神情从容。">
+            <div>
+              <div class="who">方宜</div>
+              <div class="where">南京</div>
+            </div>
+          </header>
+          <blockquote>壳体比想象中沉一点，放下去就很安定。客人来家里，常常要摸一摸，问这是不是一件器物，而不是灯。</blockquote>
+        </article>
+      </div>
+    </section>
+
+    <section id="specs" data-chapter="1" class="section-block">
+      <div class="section-head">
+        <p class="kicker">SPECIFICATIONS</p>
+        <h2>规格，以及它不愿做的事。</h2>
+      </div>
+      <div class="spec-wrap">
+        <table class="spec-table">
+          <thead>
+            <tr>
+              <th></th>
+              <th>澄栖 N1</th>
+              <th>常见夜灯</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>色温</td>
+              <td>1800K—2700K 自动过渡</td>
+              <td>多为固定 4000K 以上，或简单暖白</td>
+            </tr>
+            <tr>
+              <td>短波蓝光</td>
+              <td>已做节律校准，减去扰眠波段</td>
+              <td>通常不单独处理</td>
+            </tr>
+            <tr>
+              <td>工作噪音</td>
+              <td>&lt; 16 dB</td>
+              <td>风扇或变压器底噪可被听见</td>
+            </tr>
+            <tr>
+              <td>控制</td>
+              <td>无屏幕、无指示灯、无模式需要学习</td>
+              <td>按钮、遥控或手机应用</td>
+            </tr>
+            <tr>
+              <td>感应</td>
+              <td>起夜先照足下，躺下后自动收束</td>
+              <td>常为常亮，或延迟关闭不够自然</td>
+            </tr>
+            <tr>
+              <td>壳体</td>
+              <td>高温素烧陶瓷，一体成型</td>
+              <td>塑料或不锈钢拼接</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <section id="care" data-chapter="1">
+      <div class="care-grid" style="padding-top:8vh;padding-bottom:16vh;">
+        <figure>
+          <img src="images/care-place.jpg" width="1152" height="864" alt="一双手正把澄栖 N1 轻轻放到橡木床头柜上。">
+        </figure>
+        <div>
+          <p class="kicker">CARE</p>
+          <h2>照护与安置</h2>
+          <ol class="care-steps">
+            <li>
+              <h3>01 放置</h3>
+              <p>床头、书桌或走廊转角均可。请让感应朝向你夜间经过的路径，距离地面约 40 至 80 厘米时，足下光最自然。</p>
+            </li>
+            <li>
+              <h3>02 清洁</h3>
+              <p>使用干燥的软布轻轻擦拭即可。不要浸水，也不要使用带研磨颗粒的清洁剂，以免伤到素烧表面。</p>
+            </li>
+            <li>
+              <h3>03 供电</h3>
+              <p>内置电池与隐藏触点底座配合使用。一次满电可支持数周的夜间感应；底座可长期轻触充电，无需每次拔插。</p>
+            </li>
+          </ol>
+        </div>
+      </div>
+    </section>
+
+    <section id="faq" data-chapter="1" class="section-block">
+      <div class="section-head">
+        <p class="kicker">FAQ</p>
+        <h2>常见问题</h2>
+      </div>
+      <div class="faq-list">
+        <details>
+          <summary>N1 的光线会不会太暗？</summary>
+          <p>它的亮度是为起夜与临睡阅读准备的，不足以把房间变成白昼。若你需要在夜里长时间伏案，建议把它放在书桌近旁，让光落在纸面上，而不是顶亮整个空间。</p>
+        </details>
+        <details>
+          <summary>可以关闭感应，改成常亮吗？</summary>
+          <p>可以。将灯在底座上停留约八秒，即可进入低亮常驻；再同样操作一次，会回到感应。我们仍然建议在卧室使用感应，以保持夜晚的完整。</p>
+        </details>
+        <details>
+          <summary>光谱可以手动调节吗？</summary>
+          <p>色温由环境与时间自动过渡，不能也不需要用旋钮去「选一个更黄的档」。这是刻意的：少一个决定，夜晚就少一次被打断。</p>
+        </details>
+        <details>
+          <summary>双栖套装如何衔接？</summary>
+          <p>两枚 N1 会在近距离内协同：当你从走廊走向卧室，光会在足下交接，而不是同时亮起。开箱后按说明完成一次配对即可，之后无需再设置。</p>
+        </details>
+        <details>
+          <summary>保修与发货是怎样的？</summary>
+          <p>N1 提供两年保修，覆盖光源、感应与充电模块。等候名单开放后，我们将按批次发货，并在发货前三个工作日写信通知。陶瓷壳体如在运输中出现损伤，由澄栖负责补寄。</p>
+        </details>
+        <details>
+          <summary data-morph="4" data-from="可以在旅行时带走吗？" data-to="它更愿意留在家里。">可以在旅行时带走吗？</summary>
+          <p data-morph="4" data-from="可以。N1 体积不大，建议连同底座放入原包装。到了新的房间，给它一两个夜晚熟悉路径，感应就会重新稳定。" data-to="它更愿意留在家里。路径一旦熟悉，就不必再走。">可以。N1 体积不大，建议连同底座放入原包装。到了新的房间，给它一两个夜晚熟悉路径，感应就会重新稳定。</p>
+        </details>
+      </div>
+    </section>
+
+    <section id="showroom" data-chapter="1">
+      <div class="split">
+        <figure class="photo">
+          <img src="images/showroom.jpg" width="1280" height="720" alt="澄栖空间：明亮的展厅里，三枚 N1 被疏落地安放在一张矮橡木长凳上，窗边是纱帘与斜进来的日光。">
+        </figure>
+        <div class="prose">
+          <p class="kicker">CHENGQI SPACE</p>
+          <h2>澄栖空间，预约参观。</h2>
+          <p>我们在杭州设有一处很小的空间，用于静静地看灯，而不是浏览货架。每月两个开放日，需要提前预约。确认之后，我们会另行告知当次的参观安排。</p>
+          <div class="form-wrap" id="show-wrap">
+            <form id="show-form">
+              <input type="text" name="name" required placeholder="你的称呼" aria-label="称呼" autocomplete="name">
+              <input type="email" name="email" required placeholder="邮箱" aria-label="邮箱" autocomplete="email">
+              <button class="btn btn-fill" type="submit">预约开放日</button>
+            </form>
+            <p class="note">此为演示表单，不会向服务器提交信息。</p>
+            <p class="thanks">已记下你的预约。我们会在开放日前写信。</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="plans" data-chapter="1">
+      <div class="section-head">
+        <p class="kicker">ORDER</p>
+        <h2 data-morph="3" data-from="把一盏合适的灯，留在家里。" data-to="把一盏灯留下。人也留下。">把一盏合适的灯，留在家里。</h2>
+        <p class="lede" data-morph="4" data-from="N1 现已开放等候名单。发售时，我们只会写信通知你一次。" data-to="不必填写地址。我们知道你在哪。">N1 现已开放等候名单。发售时，我们只会写信通知你一次。</p>
+      </div>
+      <div class="plan-grid">
+        <article class="plan">
+          <h3>澄栖 N1</h3>
+          <p>单灯。床头、书桌或走廊，一处便够。</p>
+          <div class="price" data-morph="4" data-from="¥1,280" data-to="¥——">¥1,280</div>
+          <a class="btn" href="#waitlist" data-morph="3" data-from="加入等候" data-to="不要停">加入等候</a>
+        </article>
+        <article class="plan featured">
+          <h3>澄栖 N1 双栖</h3>
+          <p>卧室与走廊成对配置，光会先在足下衔接。</p>
+          <div class="price" data-morph="4" data-from="¥2,280" data-to="已在屋里">¥2,280</div>
+          <a class="btn btn-fill" href="#waitlist" data-morph="3" data-from="加入等候" data-to="我们看到你了">加入等候</a>
+        </article>
+        <article class="plan">
+          <h3>年节律</h3>
+          <p>光谱校准与夜间场景，按年为夜晚做一次微调。</p>
+          <div class="price">¥168<span style="font-size:0.95rem;"> / 年</span></div>
+          <a class="btn" href="#waitlist">了解节律</a>
+        </article>
+      </div>
+
+      <div id="waitlist" class="form-wrap" style="padding:5rem var(--pad) 16vh;max-width:calc(640px + 2 * var(--pad));">
+        <p class="kicker">WAITLIST</p>
+        <h2 data-morph="3" data-from="发售时通知我" data-to="继续向下。不要回头。">发售时通知我</h2>
+        <form id="wait-form">
+          <input type="email" name="email" autocomplete="email" required placeholder="你的邮箱" aria-label="邮箱">
+          <button class="btn btn-fill" type="submit" data-morph="4" data-from="预约通知" data-to="留下">预约通知</button>
+        </form>
+        <p class="note">此为演示表单，不会向服务器提交信息。</p>
+        <p class="thanks">已记下。夜还很长。</p>
+      </div>
+    </section>
+
+    <section id="traces" data-chapter="2">
+      <div id="quiet">
+        <div class="quiet-quote">
+          <p class="kicker">AT HOME</p>
+          <h2>安静，是一种可以被设计的秩序。</h2>
+          <p class="quiet-repeat" id="quiet-repeat" data-morph="3" data-from="安静。" data-to="安静。安静。不要停。">安静。</p>
+        </div>
+        <figure class="pair">
+          <img class="before" src="images/window-night.jpg" width="1280" height="720" alt="同一间卧室朝向落地窗：纱帘、暮蓝天空与远处树影，窗外看起来空无一人。">
+          <img class="after" src="images/window-anomaly.jpg" width="1280" height="720" alt="几乎相同的窗景。">
+          <figcaption class="caption" data-morph="2" data-from="纱帘外，夜色刚合上。" data-to="纱帘外，夜色刚合上。  你看过窗外了吗？">纱帘外，夜色刚合上。</figcaption>
+        </figure>
+      </div>
+    </section>
+
+    <section id="journal" data-chapter="2">
+      <div class="journal-text">
+        <p class="kicker">NOTES</p>
+        <h2>关于「恰好」的几次调整。</h2>
+        <p>第一版 N1 的光还是偏高了一点。我们在工房里把同一段走廊走了一百多次，把细缝的开口从三毫米收到两毫米，又把腔体内的反射层改薄。变化很小，但走完那段路的人会说：这回，眼睛没有被提起。</p>
+        <p>安静来自省略。省略说明书里的第三种模式，省略常亮的状态灯，省略你本来不必做的选择。把这些拿掉之后，剩下的才接近夜晚本身。</p>
+        <p data-morph="2" data-from="我们后来把这句话写在包装的内页：光，只亮到恰好。" data-to="我们后来把这句话写在包装的内页：光，只亮到恰好。安静。恰好。安静。">我们后来把这句话写在包装的内页：光，只亮到恰好。</p>
+      </div>
+      <figure class="pair">
+        <img class="before" src="images/window-night.jpg" width="1280" height="720" alt="窗边的卧室，光线仍然温和。">
+        <img class="after" src="images/window-anomaly.jpg" width="1280" height="720" alt="">
+      </figure>
+    </section>
+
+    <section id="echo" data-chapter="2">
+      <div class="section-head">
+        <p class="kicker">AFTER A WHILE</p>
+        <h2 data-morph="2" data-from="仍有人写信来。" data-to="仍有人写信来。有一封只写了半句。">仍有人写信来。</h2>
+      </div>
+      <div class="review-grid">
+        <article class="review">
+          <header>
+            <img src="images/avatar-03.jpg" width="1024" height="1024" alt="住户许南的肖像。">
+            <div>
+              <div class="who">许南</div>
+              <div class="where">苏州</div>
+            </div>
+          </header>
+          <blockquote data-morph="2" data-from="有一天我半夜醒来，灯已经先亮了。大概是感应比我自己更早察觉到翻身。" data-to="有一天我半夜醒来，灯已经先亮了。像是它比我更早知道。">有一天我半夜醒来，灯已经先亮了。大概是感应比我自己更早察觉到翻身。</blockquote>
+        </article>
+        <article class="review">
+          <header>
+            <img src="images/avatar-02.jpg" width="1024" height="1024" alt="住户陈屿的肖像。">
+            <div>
+              <div class="who">陈屿</div>
+              <div class="where">杭州</div>
+            </div>
+          </header>
+          <blockquote data-morph="2" data-from="用到第四周，已经很少再想起它。这大概就是我们要的效果。" data-to="用到第四周，已经很少再想起它。只是有时，会觉得屋里不止我一个人。">用到第四周，已经很少再想起它。这大概就是我们要的效果。</blockquote>
+        </article>
+        <article class="review">
+          <header>
+            <img src="images/avatar-05.jpg" width="1024" height="1024" alt="住户方宜的肖像。">
+            <div>
+              <div class="who">方宜</div>
+              <div class="where">南京</div>
+            </div>
+          </header>
+          <blockquote data-morph="2" data-from="我把它从书桌移到走廊。路径一熟，灯光交接就不再被注意了。" data-to="我把它从书桌移到走廊。路径一熟，灯光交接就不再被注意了。它好像比我更熟这条路。">我把它从书桌移到走廊。路径一熟，灯光交接就不再被注意了。</blockquote>
+        </article>
+      </div>
+    </section>
+
+    <section id="notice" data-chapter="3">
+      <div class="notice-grid">
+        <div class="notice-copy">
+          <p class="kicker" data-morph="3" data-from="LIVING WITH N1" data-to="STILL LOOKING">LIVING WITH N1</p>
+          <h2 class="can-glitch" data-morph="3" data-from="她还坐在原来的位置。" data-to="她还在笑。不要停。">她还坐在原来的位置。</h2>
+          <p data-morph="3" data-from="许多人会在第一周留意到，N1 的光总是比脚步更早出现。那是感应，不是预知。把灯放在你通常起夜会经过的地方即可。" data-to="许多人会在第一周留意到，光总是比脚步更早出现。请不要停下。请继续向下。我们看到你了。我们一直都在看。">许多人会在第一周留意到，N1 的光总是比脚步更早出现。那是感应，不是预知。把灯放在你通常起夜会经过的地方即可。</p>
+          <p class="whisper" data-morph="3" data-from="" data-to="不要看她的眼睛太久。"></p>
+        </div>
+        <figure class="portrait-pair">
+          <img class="before" src="images/portrait-warm.jpg" width="1152" height="864" alt="同一位成年女性坐在床沿，灯光温暖，微笑自然。">
+          <img class="after" src="images/portrait-hold.jpg" width="1152" height="864" alt="几乎相同的姿势，房间更冷，微笑停得太久。">
+        </figure>
+      </div>
+    </section>
+
+    <section id="break" data-chapter="4">
+      <div class="break-stage">
+        <img class="room" src="images/room-cold.jpg" width="1280" height="720" alt="同一间卧室，光线转成冷绿色，落地窗外立着一个静止的身影。">
+        <div class="break-words">
+          <p class="bw bw-a">把夜晚还给安静</p>
+          <p class="bw bw-b">我们看到你了</p>
+          <p class="bw bw-c">灯还亮着。门没有锁。你还在往下。</p>
+          <p class="bw bw-d">安静</p>
+        </div>
+      </div>
+      <div class="scatter">
+        <p class="s1">它比你更早到达走廊。</p>
+        <p class="s2">不要停 &nbsp; 不要停 &nbsp; 不要停</p>
+        <p class="s3">她一直看着门口。</p>
+        <p class="s4">澄栖</p>
+      </div>
+    </section>
+
+    <section id="finale" data-chapter="5" aria-label="结尾">
+      <div class="finale-pin">
+        <div class="finale-shots">
+          <img class="shot shot-hall" src="images/hallway-horror.jpg" width="1280" height="720" alt="深夜的家中走廊，灯只剩下一条细光，尽头的卧室门口站着一个静止的黑影。">
+          <img class="shot shot-door" src="images/door-silhouette.jpg" width="1280" height="720" alt="门缝里的身影：一条窄门开着，暖光贴着门沿，黑暗中有一个轮廓，一动不动。">
+          <img class="shot shot-face" src="images/face-close.jpg" width="1280" height="720" alt="一张凑近镜头的成年面孔，双眼圆睁，瞳孔里映着一条细细的琥珀色灯光。">
+        </div>
+        <div class="finale-copy">
+          <p class="line l1">夜还很长。</p>
+          <p class="line l2">灯，已经不必亮了。</p>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer id="colophon">
+    <p class="brand">澄栖</p>
+    <p>CHENGQI&nbsp;&nbsp;·&nbsp;&nbsp;夜间安光</p>
+    <p data-morph="5" data-from="© 澄栖" data-to="© 澄栖。夜还很长。">© 澄栖</p>
+  </footer>
+
+  <script src="js/main.js"></script>
+</body>
+</html>
