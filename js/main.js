@@ -100,18 +100,10 @@
   function applyFinale(p) {
     fp = p;
     root.style.setProperty("--fp", p.toFixed(4));
-    var hall = document.querySelector(".shot-hall");
-    var l0 = document.querySelector(".finale-copy .l0");
-    var l1 = document.querySelector(".finale-copy .l1");
-    var hallOp = 1;
-    var hallSc = 1 + p * 0.08;
-    if (reduceMotion) hallSc = 1;
-    if (hall) {
-      hall.style.opacity = String(hallOp);
-      hall.style.transform = "scale(" + hallSc + ")";
+    var last = document.querySelector(".linger-last .linger-hero img");
+    if (last && !reduceMotion) {
+      last.style.transform = "scale(" + (1 + p * 0.04).toFixed(4) + ")";
     }
-    if (l0) l0.classList.toggle("is-on", p > 0.18);
-    if (l1) l1.classList.toggle("is-on", p > 0.42);
   }
 
   function maybeFlash(st) {
@@ -221,7 +213,9 @@
   }
 
   function inkT(v) {
-    return clamp((v - 0.52) / 0.16, 0, 1);
+    /* Flip ink once the page has already started to darken, so
+       scroll-back to earlier sections never lands on mid-gray type. */
+    return clamp((v - 0.46) / 0.12, 0, 1);
   }
 
   function tick() {
@@ -284,7 +278,7 @@
 
   function applyParallax() {
     if (reduceMotion || window.innerWidth < 900) return;
-    document.querySelectorAll(".pair, .hero-visual, .portrait-pair").forEach(function (el) {
+    document.querySelectorAll(".pair, .hero-visual, .portrait-pair, .img-pair, .linger-frame, .linger-hero").forEach(function (el) {
       var r = el.getBoundingClientRect();
       if (r.bottom < -80 || r.top > window.innerHeight + 80) return;
       var mid = r.top + r.height / 2 - window.innerHeight / 2;
@@ -343,7 +337,7 @@
 
   function glitchTick() {
     if (maxStage >= 4 && maxStage < 5 && !reduceMotion) {
-      var nodes = document.querySelectorAll("#break .bw, #break .scatter p");
+      var nodes = document.querySelectorAll("#break .bw, #break .scatter p, #finale .linger-copy p, #finale .linger-copy h2");
       if (nodes.length) {
         var n = nodes[Math.floor(Math.random() * nodes.length)];
         n.classList.add("can-glitch");
@@ -456,8 +450,18 @@
       jumpTo(document.getElementById("notice"), null);
     } else if (token === "4" || token === "break") {
       jumpTo(document.getElementById("break"), null);
+    } else if (token === "late" || token === "near-end") {
+      jumpTo(document.getElementById("finale"), 0.62);
     } else if (token === "hall" || token === "5" || token === "end" || token === "bottom") {
       window.scrollTo({ top: maxScrollY(), left: 0, behavior: "instant" });
+    } else if (token === "infect" || token === "back-mid") {
+      jumpTo(document.getElementById("notice"), 0.35);
+      tick();
+      setTimeout(function () {
+        window.scrollTo({ top: 0, left: 0, behavior: "instant" });
+        tick();
+      }, 80);
+      return;
     } else if (token === "hold" || token === "back-a-little") {
       window.scrollTo({ top: maxScrollY(), left: 0, behavior: "instant" });
       tick();
