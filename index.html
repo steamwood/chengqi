@@ -15,10 +15,17 @@
   <div id="fx-vignette" aria-hidden="true"></div>
   <div id="fx-scan" aria-hidden="true"></div>
   <div id="fx-ca" aria-hidden="true"></div>
+  <canvas id="fx-canvas" aria-hidden="true"></canvas>
+  <div id="fx-lamp" aria-hidden="true"></div>
+  <div id="sys-note" role="status" aria-live="polite" hidden>
+    <p class="sys-brand">澄栖</p>
+    <p class="sys-msg"></p>
+  </div>
   <p class="leave-hint">门还开着</p>
   <div id="watch" aria-hidden="true">
     <img src="images/watch-behind.jpg" width="1280" height="720" alt="">
     <p class="watch-line">它一直在看。</p>
+    <p class="watch-sub">你已经在这一页里了。</p>
   </div>
 
   <audio id="a-wind" class="stem" src="audio/wind.mp3" loop preload="auto"></audio>
@@ -36,39 +43,80 @@
         <ellipse cx="24" cy="25.5" rx="11" ry="13" fill="none" stroke="currentColor" stroke-width="2"/>
         <rect x="15.5" y="24.6" width="17" height="1.8" rx="0.9" fill="currentColor"/>
       </svg>
-      <span class="logo-word">澄栖</span>
+      <span class="logo-word">澄栖</span><span class="logo-status">仍亮着</span>
     </a>
     <button type="button" id="nav-toggle" aria-expanded="false" aria-controls="site-links" aria-label="打开菜单">菜单</button>
     <nav class="links" id="site-links" aria-label="页面章节">
-      <a href="#product" id="nav-product" class="live-morph" data-start="0.50" data-span="0.14"><span class="m-from">产品</span><span class="m-to">门口</span></a>
-      <a href="#craft" id="nav-design" class="live-morph" data-start="0.52" data-span="0.14"><span class="m-from">设计</span><span class="m-to">别看</span></a>
-      <a href="#story" id="nav-story" class="live-morph" data-start="0.54" data-span="0.14"><span class="m-from">故事</span><span class="m-to">听过</span></a>
-      <a href="#plans" id="nav-order" class="live-morph" data-start="0.48" data-span="0.14"><span class="m-from">订购</span><span class="m-to">留下</span></a>
+      <a href="#product" id="nav-product" class="live-morph" data-start="0.12" data-span="0.18"><span class="m-from">产品</span><span class="m-to">门口</span></a>
+      <a href="#craft" id="nav-design" class="live-morph" data-start="0.14" data-span="0.18"><span class="m-from">设计</span><span class="m-to">别看</span></a>
+      <a href="#story" id="nav-story" class="live-morph" data-start="0.16" data-span="0.18"><span class="m-from">故事</span><span class="m-to">还在</span></a>
+      <a href="#plans" id="nav-order" class="live-morph" data-start="0.13" data-span="0.18"><span class="m-from">订购</span><span class="m-to">留下</span></a>
     </nav>
-    <button type="button" id="sound-toggle" aria-pressed="false" aria-label="音乐开关，默认关闭">音乐 关</button>
+    <div class="sound-wrap">
+      <button type="button" id="sound-toggle" aria-pressed="false" aria-label="音乐开关，默认关闭">音乐 关</button>
+      <span id="sound-remark" aria-live="polite"></span>
+    </div>
   </header>
 
   <main id="top">
     <section id="hero" data-chapter="1">
       <div class="hero-copy">
-        <p class="kicker">CHENGQI&nbsp;&nbsp;·&nbsp;&nbsp;N1</p>
-        <h1 class="live-morph" data-start="0.54" data-span="0.16">
+        <p class="kicker hero-kicker-clean">CHENGQI&nbsp;&nbsp;·&nbsp;&nbsp;N1</p>
+        <p class="kicker hero-kicker-deep">CHENGQI&nbsp;&nbsp;·&nbsp;&nbsp;N1&nbsp;&nbsp;·&nbsp;&nbsp;仍在夜里</p>
+        <h1 class="hero-title-clean live-morph" data-start="0.54" data-span="0.16">
           <span class="m-from">把夜晚，<br>还给安静。</span>
           <span class="m-to">夜还很长。<br>不要停。</span>
         </h1>
-        <p class="lede live-morph" data-start="0.52" data-span="0.16">
+        <h1 class="hero-title-deep">往回走，<br>并不能把刚才的灯<br>再点回去。</h1>
+        <p class="lede hero-lede-clean live-morph" data-start="0.52" data-span="0.16">
           <span class="m-from">澄栖 N1 感知你的作息，只在真正需要时亮起。光谱按睡眠节律校准，亮度也只停在刚刚好的位置。</span>
           <span class="m-to">它感知你的作息，比你更早知道你会醒。请继续往下看。</span>
         </p>
-        <a class="btn live-morph" href="#product" data-start="0.56" data-span="0.12"><span class="m-from">了解澄栖 N1</span><span class="m-to">继续向下</span></a>
+        <p class="lede hero-lede-deep">你刚才看见的那间明亮卧室，并没有在这一页上停留过。从打开这一页起，夜就已经比你先到了。</p>
+        <ul class="hero-badges">
+          <li class="badge-clean">《居间》十一月推荐</li>
+          <li class="badge-clean">居室器物选 2026</li>
+          <li class="badge-deep">官方通告：路径已重新校准</li>
+        </ul>
+        <dl class="hero-metrics">
+          <div>
+            <dt class="metric-label-clean">工作噪音</dt>
+            <dt class="metric-label-deep">在场</dt>
+            <dd class="metric-clean">&lt; 16 dB</dd>
+            <dd class="metric-deep">2</dd>
+          </div>
+          <div>
+            <dt class="metric-label-clean">色温</dt>
+            <dt class="metric-label-deep">距离</dt>
+            <dd class="metric-clean">1800 — 2700K</dd>
+            <dd class="metric-deep">0.8 m</dd>
+          </div>
+          <div>
+            <dt class="metric-label-clean">感应</dt>
+            <dt class="metric-label-deep">方位</dt>
+            <dd class="metric-clean">光先到脚下</dd>
+            <dd class="metric-deep">它在你身后</dd>
+          </div>
+        </dl>
+        <div class="hero-actions">
+          <a class="btn hero-cta-clean live-morph" href="#product" data-start="0.56" data-span="0.12"><span class="m-from">了解澄栖 N1</span><span class="m-to">继续向下</span></a>
+          <a class="btn hero-cta-deep" href="#finale" data-bait="stay">无法退出</a>
+          <a class="btn btn-fill hero-cta-deep" href="#finale" data-bait="down">无法取消</a>
+        </div>
       </div>
       <figure class="hero-visual pair">
         <img src="images/hero-bedroom.jpg" width="1280" height="720" alt="暮色中的卧室：低矮的橡木平台床、象牙色亚麻寝具，床头柜上是一枚卵形陶瓷夜灯，细细一条暖光。落地窗外星空宁静。">
         <img class="after" src="images/room-cold.jpg" width="1280" height="720" alt="">
-        <figcaption class="caption live-morph" data-start="0.56" data-span="0.14">
+        <div class="hero-annote" aria-hidden="true">
+          <span>CAM · 床头</span>
+          <span>感应已开启</span>
+          <span>02:14:07</span>
+        </div>
+        <figcaption class="caption live-morph hero-cap-clean" data-start="0.56" data-span="0.14">
           <span class="m-from">澄栖 N1，在夜色将至时。</span>
           <span class="m-to">灯还亮着。门没有锁。</span>
         </figcaption>
+        <figcaption class="caption hero-cap-deep">同一间卧室。光还在，只是不再为你亮。</figcaption>
       </figure>
     </section>
 
@@ -158,6 +206,44 @@
           </div>
           <h3>声场静音</h3>
           <p>工作噪音低于 16 分贝，比大多数人的呼吸还轻。真正安静的时候，你不该感觉到机器还在。</p>
+        </article>
+      </div>
+    </section>
+
+    <section id="status" data-chapter="1" class="section-block">
+      <div class="section-head">
+        <p class="kicker">AT A GLANCE</p>
+        <h2>今晚的使用状态</h2>
+        <p class="lede">N1 会把夜里的几次点亮记在灯里，方便你了解自己的节律。记录只留在本灯，不会送到别处。</p>
+      </div>
+      <div class="status-board" data-module="status">
+        <article class="status-card">
+          <h3>本灯位置</h3>
+          <p class="status-clean">卧室床头</p>
+          <p class="status-taint">卧室床头，以及门口</p>
+        </article>
+        <article class="status-card">
+          <h3>感应</h3>
+          <p class="status-clean"><span class="lamp-dot"></span>开启</p>
+          <p class="status-taint"><span class="lamp-dot"></span>开启，且比你更早</p>
+        </article>
+        <article class="status-card">
+          <h3>环境照度</h3>
+          <p class="status-clean">12 lx</p>
+          <p class="status-taint">12 lx · 另有一处热源</p>
+        </article>
+        <article class="status-card">
+          <h3>今晚点亮</h3>
+          <p class="status-clean">3 次</p>
+          <p class="status-taint">4 次</p>
+        </article>
+        <article class="status-log">
+          <h3>夜间日志</h3>
+          <ol>
+            <li><span class="status-clean">02:14　光先照到脚下</span><span class="status-taint">02:14　光先照到脚下。有第二处脚步。</span></li>
+            <li><span class="status-clean">01:03　感应恢复待命</span><span class="status-taint">01:03　感应没有睡。</span></li>
+            <li><span class="status-clean">23:48　亮度自行收住</span><span class="status-taint">23:48　亮度自行收住。在场人数：2</span></li>
+          </ol>
         </article>
       </div>
     </section>
@@ -360,13 +446,19 @@
           <summary>N1 的光线会不会太暗？</summary>
           <p>它的亮度是为起夜和睡前阅读准备的，不足以把房间变成白昼。如果夜里要长时间伏案，建议把灯放在书桌近旁，让光落在纸面上，而不要顶亮整个房间。</p>
         </details>
-        <details>
-          <summary>可以关掉感应，改成常亮吗？</summary>
-          <p>可以。把灯在底座上停留大约八秒，就会改为低亮常亮；再同样操作一次，又会回到感应。卧室里我们仍建议使用感应，免得把夜晚打断。</p>
+        <details data-module="faq">
+          <summary class="live-morph" data-start="0.24" data-span="0.16"><span class="m-from">可以关掉感应，改成常亮吗？</span><span class="m-to">如果我想把灯关掉呢？</span></summary>
+          <p class="live-morph" data-start="0.24" data-span="0.16">
+            <span class="m-from">可以。把灯在底座上停留大约八秒，就会改为低亮常亮；再同样操作一次，又会回到感应。卧室里我们仍建议使用感应，免得把夜晚打断。</span>
+            <span class="m-to">可以试。把它按住大约八秒。若它没有灭，请不必着急，它只是还认为你在路上。</span>
+          </p>
         </details>
-        <details>
-          <summary>光谱可以手动调节吗？</summary>
-          <p>色温会随环境和时间自动变化，不用自己去调成更黄的一档。少一个选择，夜里就少一次被打断。</p>
+        <details data-module="faq">
+          <summary class="live-morph" data-start="0.28" data-span="0.16"><span class="m-from">光谱可以手动调节吗？</span><span class="m-to">它会不会一直亮着？</span></summary>
+          <p class="live-morph" data-start="0.28" data-span="0.16">
+            <span class="m-from">色温会随环境和时间自动变化，不用自己去调成更黄的一档。少一个选择，夜里就少一次被打断。</span>
+            <span class="m-to">色温会自己变化。少一个选择，夜里就少一次被打断。至于它会不会一直亮着，要看你是不是还在这一页。</span>
+          </p>
         </details>
         <details>
           <summary>双栖套装如何衔接？</summary>
@@ -396,12 +488,14 @@
           <h2>澄栖空间，预约参观</h2>
           <p>我们在杭州有一处很小的空间，用来安静地看灯，而不是浏览货架。每月两个开放日，需要提前预约。确认之后，我们会再写信告诉你那一次的参观<span class="live-morph" data-start="0.20" data-span="0.14"><span class="m-from">安排。</span><span class="m-to">安排。请继续往下看。</span></span></p>
           <div class="form-wrap" id="show-wrap">
-            <form id="show-form" autocomplete="off">
+            <form id="show-form" autocomplete="off" data-module="form">
+              <label class="field-label live-morph" data-start="0.20" data-span="0.16"><span class="m-from">称呼</span><span class="m-to">你希望被怎样称呼</span></label>
               <input type="text" name="field-a" required placeholder="你的称呼" aria-label="称呼" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false">
+              <label class="field-label live-morph" data-start="0.22" data-span="0.16"><span class="m-from">邮箱</span><span class="m-to">我们如何再找到你</span></label>
               <input type="text" name="field-b" required placeholder="邮箱" aria-label="邮箱" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false">
-              <button class="btn btn-fill" type="submit">预约开放日</button>
+              <button class="btn btn-fill live-morph js-form-submit" type="submit" data-start="0.24" data-span="0.16"><span class="m-from">预约开放日</span><span class="m-to">留下</span></button>
             </form>
-            <p class="thanks">已记下，我们会在开放日前写信给你。</p>
+            <p class="thanks" data-clean="已记下，我们会在开放日前写信给你。" data-taint="已记下。夜还很长，我们会再写信。请不必回头。">已记下，我们会在开放日前写信给你。</p>
           </div>
         </div>
       </div>
@@ -416,35 +510,51 @@
           <span class="m-to">N1 现已开放等候名单。发售时，我们会写信通知你。你还在往下看。</span>
         </p>
       </div>
-      <div class="plan-grid">
+      <div class="plan-grid" data-module="plans">
         <article class="plan">
-          <h3>澄栖 N1</h3>
-          <p>单灯。放在床头、书桌或走廊，一处就够了。</p>
-          <div class="price live-morph" data-start="0.50" data-span="0.12"><span class="m-from">¥1,280</span><span class="m-to">¥——</span></div>
-          <a class="btn live-morph" href="#waitlist" data-start="0.34" data-span="0.16"><span class="m-from">加入等候</span><span class="m-to">不要停</span></a>
+          <h3 class="live-morph" data-start="0.22" data-span="0.16"><span class="m-from">澄栖 N1</span><span class="m-to">澄栖 N1 · 已在床头</span></h3>
+          <p class="live-morph" data-start="0.22" data-span="0.16"><span class="m-from">单灯。放在床头、书桌或走廊，一处就够了。</span><span class="m-to">单灯。放在你夜里会经过的地方。一处就够了。</span></p>
+          <ul class="plan-points">
+            <li class="live-morph" data-start="0.24" data-span="0.14"><span class="m-from">感应先于脚步</span><span class="m-to">感应先于你</span></li>
+            <li class="live-morph" data-start="0.26" data-span="0.14"><span class="m-from">工作噪音低于 16 分贝</span><span class="m-to">屋里会更安静</span></li>
+            <li class="live-morph" data-start="0.28" data-span="0.14"><span class="m-from">陶瓷一体成型</span><span class="m-to">请把它留下</span></li>
+          </ul>
+          <div class="price live-morph" data-start="0.30" data-span="0.16"><span class="m-from">¥1,280</span><span class="m-to">已就绪</span></div>
+          <a class="btn live-morph js-plan-cta" href="#waitlist" data-bait="down" data-start="0.32" data-span="0.16"><span class="m-from">加入等候</span><span class="m-to">请留下</span></a>
         </article>
         <article class="plan featured">
-          <h3>澄栖 N1 双栖</h3>
-          <p>卧室与走廊成对配置，光会先在脚下衔接。</p>
-          <div class="price live-morph" data-start="0.50" data-span="0.12"><span class="m-from">¥2,280</span><span class="m-to">已在屋里</span></div>
-          <a class="btn btn-fill live-morph" href="#waitlist" data-start="0.38" data-span="0.16"><span class="m-from">加入等候</span><span class="m-to">我们看到你了</span></a>
+          <h3 class="live-morph" data-start="0.22" data-span="0.16"><span class="m-from">澄栖 N1 双栖</span><span class="m-to">双栖 · 走廊已经亮了</span></h3>
+          <p class="live-morph" data-start="0.22" data-span="0.16"><span class="m-from">卧室与走廊成对配置，光会先在脚下衔接。</span><span class="m-to">卧室与走廊成对配置。有一枚会比你更早走到门口。</span></p>
+          <ul class="plan-points">
+            <li class="live-morph" data-start="0.24" data-span="0.14"><span class="m-from">两处光在脚下交接</span><span class="m-to">两处光会等你</span></li>
+            <li class="live-morph" data-start="0.26" data-span="0.14"><span class="m-from">一次配对，之后不必再设</span><span class="m-to">路径一旦熟悉，就不必再走</span></li>
+            <li class="live-morph" data-start="0.28" data-span="0.14"><span class="m-from">适合较大的居所</span><span class="m-to">适合还不肯睡的人</span></li>
+          </ul>
+          <div class="price live-morph" data-start="0.30" data-span="0.16"><span class="m-from">¥2,280</span><span class="m-to">已在屋里</span></div>
+          <a class="btn btn-fill live-morph js-plan-cta" href="#waitlist" data-bait="down" data-start="0.34" data-span="0.16"><span class="m-from">加入等候</span><span class="m-to">我们看到你了</span></a>
         </article>
         <article class="plan">
-          <h3>年节律</h3>
-          <p>每年提供一次光谱校准，也可以微调夜间的使用场景。</p>
-          <div class="price">¥168<span style="font-size:0.95rem;"> / 年</span></div>
-          <a class="btn" href="#waitlist">了解节律</a>
+          <h3 class="live-morph" data-start="0.22" data-span="0.16"><span class="m-from">年节律</span><span class="m-to">年节律 · 请不要退出</span></h3>
+          <p class="live-morph" data-start="0.22" data-span="0.16"><span class="m-from">每年提供一次光谱校准，也可以微调夜间的使用场景。</span><span class="m-to">每年提供一次校准。这一次，我们会把你也算进去。</span></p>
+          <ul class="plan-points">
+            <li class="live-morph" data-start="0.24" data-span="0.14"><span class="m-from">一次光谱校准</span><span class="m-to">一次就够了</span></li>
+            <li class="live-morph" data-start="0.26" data-span="0.14"><span class="m-from">可微调使用场景</span><span class="m-to">场景会记住你</span></li>
+            <li class="live-morph" data-start="0.28" data-span="0.14"><span class="m-from">工房来信提醒</span><span class="m-to">我们会再写信</span></li>
+          </ul>
+          <div class="price live-morph" data-start="0.30" data-span="0.16"><span class="m-from">¥168 / 年</span><span class="m-to">无法取消</span></div>
+          <a class="btn js-plan-cta live-morph" href="#waitlist" data-bait="stay" data-start="0.34" data-span="0.16"><span class="m-from">了解节律</span><span class="m-to">无法退出</span></a>
         </article>
       </div>
 
       <div id="waitlist" class="form-wrap" style="padding:5rem var(--pad) 16vh;max-width:calc(640px + 2 * var(--pad));">
         <p class="kicker">WAITLIST</p>
         <h2 class="live-morph" data-start="0.24" data-span="0.16"><span class="m-from">发售时通知我</span><span class="m-to">继续向下。不要回头。</span></h2>
-        <form id="wait-form" autocomplete="off">
+        <form id="wait-form" autocomplete="off" data-module="form">
+          <label class="field-label live-morph" data-start="0.20" data-span="0.16"><span class="m-from">邮箱</span><span class="m-to">我们如何再找到你</span></label>
           <input type="text" name="field-c" required placeholder="你的邮箱" aria-label="邮箱" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false">
-          <button class="btn btn-fill live-morph" type="submit" data-start="0.40" data-span="0.14"><span class="m-from">预约通知</span><span class="m-to">留下</span></button>
+          <button class="btn btn-fill live-morph js-form-submit" type="submit" data-start="0.24" data-span="0.16"><span class="m-from">预约通知</span><span class="m-to">留下</span></button>
         </form>
-        <p class="thanks">已记下，发售时会写信通知你。</p>
+        <p class="thanks" data-clean="已记下，发售时会写信通知你。" data-taint="已记下。发售时会写信。也请你先不要离开这一页。">已记下，发售时会写信通知你。</p>
       </div>
     </section>
 
@@ -782,6 +892,10 @@
         </div>
       </article>
     </section>
+    <div class="linger-actions">
+      <button type="button" class="btn" data-bait="reset">回到刚才的光里</button>
+      <button type="button" class="btn" data-bait="day">把夜晚还给白天</button>
+    </div>
   </main>
 
   <footer id="colophon">
