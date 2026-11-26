@@ -12,12 +12,17 @@
 <body>
   <div id="flash" aria-hidden="true"></div>
   <div id="cursor-ghost" aria-hidden="true"></div>
+  <div id="fx-vignette" aria-hidden="true"></div>
+  <div id="fx-scan" aria-hidden="true"></div>
+  <div id="fx-ca" aria-hidden="true"></div>
   <p class="leave-hint">门还开着</p>
 
   <audio id="a-wind" class="stem" src="audio/wind.mp3" loop preload="auto"></audio>
   <audio id="a-drone" class="stem" src="audio/drone.mp3" loop preload="auto"></audio>
   <audio id="a-steps" class="stem" src="audio/steps.mp3" loop preload="auto"></audio>
   <audio id="a-static" class="stem" src="audio/static.mp3" loop preload="auto"></audio>
+  <audio id="a-rumble" class="stem" src="audio/rumble.mp3" loop preload="auto"></audio>
+  <audio id="a-hiss" class="stem" src="audio/hiss.mp3" loop preload="auto"></audio>
   <audio id="a-sting" class="stem" src="audio/sting.mp3" preload="auto"></audio>
 
   <header id="site-nav">
@@ -28,7 +33,8 @@
       </svg>
       <span class="logo-word">澄栖</span>
     </a>
-    <nav class="links" aria-label="页面章节">
+    <button type="button" id="nav-toggle" aria-expanded="false" aria-controls="site-links" aria-label="打开菜单">菜单</button>
+    <nav class="links" id="site-links" aria-label="页面章节">
       <a href="#product" id="nav-product" class="live-morph" data-start="0.50" data-span="0.14"><span class="m-from">产品</span><span class="m-to">门口</span></a>
       <a href="#craft" id="nav-design" class="live-morph" data-start="0.52" data-span="0.14"><span class="m-from">设计</span><span class="m-to">别看</span></a>
       <a href="#story" id="nav-story" class="live-morph" data-start="0.54" data-span="0.14"><span class="m-from">故事</span><span class="m-to">听过</span></a>
@@ -362,9 +368,9 @@
           <h2>澄栖空间，预约参观</h2>
           <p>我们在杭州有一处很小的空间，用来安静地看灯，而不是浏览货架。每月两个开放日，需要提前预约。确认之后，我们会再写信告诉你那一次的参观<span class="live-morph" data-start="0.20" data-span="0.14"><span class="m-from">安排。</span><span class="m-to">安排。请继续往下看。</span></span></p>
           <div class="form-wrap" id="show-wrap">
-            <form id="show-form">
-              <input type="text" name="name" required placeholder="你的称呼" aria-label="称呼" autocomplete="name">
-              <input type="email" name="email" required placeholder="邮箱" aria-label="邮箱" autocomplete="email">
+            <form id="show-form" autocomplete="off">
+              <input type="text" name="field-a" required placeholder="你的称呼" aria-label="称呼" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false">
+              <input type="text" name="field-b" required placeholder="邮箱" aria-label="邮箱" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false">
               <button class="btn btn-fill" type="submit">预约开放日</button>
             </form>
             <p class="thanks">已记下，我们会在开放日前写信给你。</p>
@@ -406,8 +412,8 @@
       <div id="waitlist" class="form-wrap" style="padding:5rem var(--pad) 16vh;max-width:calc(640px + 2 * var(--pad));">
         <p class="kicker">WAITLIST</p>
         <h2 class="live-morph" data-start="0.24" data-span="0.16"><span class="m-from">发售时通知我</span><span class="m-to">继续向下。不要回头。</span></h2>
-        <form id="wait-form">
-          <input type="email" name="email" autocomplete="email" required placeholder="你的邮箱" aria-label="邮箱">
+        <form id="wait-form" autocomplete="off">
+          <input type="text" name="field-c" required placeholder="你的邮箱" aria-label="邮箱" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false">
           <button class="btn btn-fill live-morph" type="submit" data-start="0.40" data-span="0.14"><span class="m-from">预约通知</span><span class="m-to">留下</span></button>
         </form>
         <p class="thanks">已记下，发售时会写信通知你。</p>
@@ -441,21 +447,87 @@
         <h2>关于「恰好」的几次调整</h2>
         <p>第一版 N1 的光还是偏高了一点。我们在工房里把同一段走廊走了一百多次，把细缝从三毫米收到两毫米，又把腔体内的反射层改薄。变化很小，但走完那段路的人会说：这回，眼睛不会被光拽起来了。</p>
         <p>安静来自少做。我们拿掉了说明书里的第三种模式，拿掉了常亮的状态灯，也拿掉了那些你本不必做的选择。把这些拿掉之后，剩下的才更接近夜晚本身。</p>
-        <p class="live-morph" data-start="0.32" data-span="0.14">
+        <ol class="log">
+          <li>
+            <p class="when">三月</p>
+            <p>细缝改薄之后，光的边缘更软了。我们把同一段走廊又走了许多遍，记录每一次抬头时眼睛是否被拽起来。大多数时候，已经不会。</p>
+          </li>
+          <li>
+            <p class="when">五月</p>
+            <p>说明书里的第三种模式拿掉了，常亮的状态灯也拿掉了。少一个选择，夜里就少一次被打断。</p>
+          </li>
+          <li>
+            <p class="when">七月</p>
+            <p>请十位同事在夜里走同一段路。我们问的不是「看得见吗」，而是「有没有被叫醒」。十个人都摇头。</p>
+          </li>
+          <li>
+            <p class="when">八月</p>
+            <p class="live-morph" data-start="0.32" data-span="0.14"><span class="m-from">有人说，走到门口时灯已经亮了。我们把感应灵敏度又调低了一档，复测时一切正常。</span><span class="m-to">有人说，走到门口时灯已经亮了。灵敏度调低以后，它有时仍会先到。</span></p>
+          </li>
+          <li>
+            <p class="when">九月</p>
+            <p>灵敏度已经很低。可还是有人写信来，说灯会在翻身之前亮起。我们决定把工房日志再对一遍。</p>
+          </li>
+          <li>
+            <p class="when">十月</p>
+            <p class="live-morph" data-start="0.34" data-span="0.14"><span class="m-from">日志里有几次点亮，对不上当时的测试记录。壳体和固件都复查过，没有找到对应的指令。</span><span class="m-to">日志里有几次点亮，对不上当时的测试记录。像是灯自己先走了一步。</span></p>
+          </li>
+        </ol>
+        <p class="live-morph" data-start="0.36" data-span="0.14">
           <span class="m-from">我们后来把这句话写在包装的内页：光，只亮到恰好。</span>
           <span class="m-to">我们后来把这句话写在包装的内页：光，只亮到恰好。安静。恰好。安静。</span>
         </p>
       </div>
-      <figure class="pair">
+      <figure class="pair" style="--fade-start:0.22;--fade-span:0.28;">
         <img class="before" src="images/window-night.jpg" width="1280" height="720" alt="窗边的卧室，光线仍然温和。">
         <img class="after" src="images/window-anomaly.jpg" width="1280" height="720" alt="">
+      </figure>
+      <figure class="pair" style="--fade-start:0.34;--fade-span:0.22;">
+        <img class="before" src="images/window-anomaly.jpg" width="1280" height="720" alt="几乎同一扇窗，夜色更深了一点。">
+        <img class="after" src="images/window-later.jpg" width="1280" height="720" alt="同一扇窗，夜更晚了。">
+        <figcaption class="caption live-morph" data-start="0.34" data-span="0.16">
+          <span class="m-from">过了一阵。窗还是那扇窗，夜色只是更深了。</span>
+          <span class="m-to">过了一阵。窗还是那扇窗。你看过窗外了吗？</span>
+        </figcaption>
+      </figure>
+    </section>
+
+    <section id="rooms" data-chapter="2">
+      <div class="section-head">
+        <p class="kicker">THE SAME HOUSE</p>
+        <h2 class="live-morph" data-start="0.36" data-span="0.16"><span class="m-from">还是同一间屋子。</span><span class="m-to">还是同一间屋子。路却好像短了。</span></h2>
+        <p class="lede">我们把灯留在夜里会经过的地方，然后一次次走过去，确认光只停在该停的位置。走廊，窗边，床头。路径熟了以后，人就不太会再注意灯。</p>
+      </div>
+      <figure class="pair" style="--fade-start:0.32;--fade-span:0.22;">
+        <img class="before" src="images/feature-path.jpg" width="1280" height="720" alt="同一条走廊：暖光沿橡木地板铺向卧室门口，走廊空无一人。">
+        <img class="after" src="images/hallway-mid.jpg" width="1280" height="720" alt="同一条走廊，再晚一些，光还在，门口看起来更近。">
+        <figcaption class="caption live-morph" data-start="0.32" data-span="0.16">
+          <span class="m-from">走廊。光会先铺到脚下。</span>
+          <span class="m-to">走廊。光还铺在脚下。门口好像更近了。</span>
+        </figcaption>
+      </figure>
+      <div class="journal-text">
+        <p>同一段走廊，我们走了太多次，连木地板的纹路都记得。后来有同事说，走到一半时，会觉得尽头的门比记忆里更近一点。我们量过，距离没有变。</p>
+        <p class="live-morph" data-start="0.38" data-span="0.16">
+          <span class="m-from">也许是夜里的判断会慢一些。光只负责照路，不负责解释。我们把这句话也写进了内部笔记。</span>
+          <span class="m-to">也许是夜里的判断会慢一些。光只负责照路。可门，确实像更近了。</span>
+        </p>
+      </div>
+      <figure class="pair" style="--fade-start:0.46;--fade-span:0.22;">
+        <img class="before" src="images/hallway-mid.jpg" width="1280" height="720" alt="走廊更暗了，卧室门口仍空着。">
+        <img class="after" src="images/hallway-near.jpg" width="1280" height="720" alt="再走近一些，门虚掩着。">
+        <figcaption class="caption live-morph" data-start="0.46" data-span="0.16">
+          <span class="m-from">再走近一些。门还虚掩着。</span>
+          <span class="m-to">再走近一些。门还开着。不要停。</span>
+        </figcaption>
       </figure>
     </section>
 
     <section id="echo" data-chapter="2">
       <div class="section-head">
         <p class="kicker">AFTER A WHILE</p>
-        <h2 class="live-morph" data-start="0.34" data-span="0.14"><span class="m-from">后来，仍有人写信来。</span><span class="m-to">后来，仍有人写信来。有一封只写了半句。</span></h2>
+        <h2 class="live-morph" data-start="0.36" data-span="0.14"><span class="m-from">后来，仍有人写信来。</span><span class="m-to">后来，仍有人写信来。有一封只写了半句。</span></h2>
+        <p class="lede">发售之后的几个月里，来信大多很短，也大多很安静。我们把一些片段留在这里。</p>
       </div>
       <div class="review-grid">
         <article class="review">
@@ -466,7 +538,7 @@
               <div class="where">苏州</div>
             </div>
           </header>
-          <blockquote class="live-morph" data-start="0.34" data-span="0.14">
+          <blockquote class="live-morph" data-start="0.36" data-span="0.14">
             <span class="m-from">有一天我半夜醒来，灯已经先亮了。大概是感应比我自己更早察觉到翻身。</span>
             <span class="m-to">有一天我半夜醒来，灯已经先亮了。像是它比我更早知道。</span>
           </blockquote>
@@ -479,7 +551,7 @@
               <div class="where">杭州</div>
             </div>
           </header>
-          <blockquote class="live-morph" data-start="0.36" data-span="0.14">
+          <blockquote class="live-morph" data-start="0.38" data-span="0.14">
             <span class="m-from">用到第四周，已经很少再想起它。这大概就是我们要的效果。</span>
             <span class="m-to">用到第四周，已经很少再想起它。只是有时会觉得，屋里不只我一个人。</span>
           </blockquote>
@@ -492,11 +564,54 @@
               <div class="where">南京</div>
             </div>
           </header>
-          <blockquote class="live-morph" data-start="0.38" data-span="0.14">
+          <blockquote class="live-morph" data-start="0.40" data-span="0.14">
             <span class="m-from">我把它从书桌移到走廊。路径一熟，灯光交接就不再被注意了。</span>
             <span class="m-to">我把它从书桌移到走廊。路径一熟，灯光交接就不再被注意了。它好像比我更熟这条路。</span>
           </blockquote>
         </article>
+      </div>
+      <div class="letters">
+        <article class="letter">
+          <p class="letter-meta">林唯 · 上海 · 十一月</p>
+          <p>用到第三个月，我想写信说一声谢谢。夜里真的安静了很多，孩子也不再被开关吵醒。</p>
+          <p class="live-morph" data-start="0.38" data-span="0.16"><span class="m-from">有一回我半夜醒来，灯已经先亮了。我没有起身，它却像等了一会儿，才慢慢暗下去。也许是感应比我自己更早察觉到翻身。我把它当作一件好事。</span><span class="m-to">有一回我半夜醒来，灯已经先亮了。我没有起身，它却像等了我很久，才慢慢暗下去。像是它比我更早知道我会醒。</span></p>
+        </article>
+        <article class="letter">
+          <p class="letter-meta">赵临 · 成都 · 十一月</p>
+          <p>我仍把它放在书桌上。晚上写信，光线只够看清纸面。这个分寸还是很准。</p>
+          <p class="live-morph" data-start="0.40" data-span="0.16"><span class="m-from">只是有一次写到一半，抬头看见走廊那边也亮着。那边没有人走动。可能是双栖套装在交接。我没有再核对。</span><span class="m-to">只是有一次写到一半，抬头看见走廊那边也亮着。那边没有人走动。像是有谁先过去了。我没有再核对。</span></p>
+        </article>
+        <article class="letter">
+          <p class="letter-meta">方宜 · 南京 · 十一月</p>
+          <p class="live-morph" data-start="0.42" data-span="0.16"><span class="m-from">路径一熟，灯光交接就不再被注意了。我本来想说，这大概就是我们要的效果。后来我常会在门口停一下。不是因为看不清，只是想确认光还在该在的地方。</span><span class="m-to">路径一熟，灯光交接就不再被注意了。后来我常会在门口停一下。不是因为看不清，是因为总觉得灯比我更熟这条路。</span></p>
+        </article>
+      </div>
+    </section>
+
+    <section id="reprint" data-chapter="2" class="section-block">
+      <div class="section-head">
+        <p class="kicker">PRODUCT NOTES</p>
+        <h2 class="live-morph" data-start="0.42" data-span="0.16"><span class="m-from">再看一遍澄栖 N1</span><span class="m-to">再看一遍。它还在。</span></h2>
+      </div>
+      <div class="journal-text">
+        <p>大多数夜灯只是把白昼延长。澄栖 N1 正好相反：它不拉长白天，只让黑暗变得可以安心停留。一体成型的陶瓷壳体里，只有一道细光。没有指示灯，没有屏幕，也没有需要学习的模式。</p>
+        <p class="live-morph" data-start="0.42" data-span="0.16"><span class="m-from">你走进夜里，它会自己决定亮到哪里。</span><span class="m-to">你走进夜里，它会自己决定走到哪里。</span></p>
+        <p>放置时，床头、书桌或走廊转角都可以。请把感应方向对着你夜里走过的路径。</p>
+        <p class="live-morph" data-start="0.44" data-span="0.16"><span class="m-from">离地大约 40 到 80 厘米时，脚下的光最自然。一次充满，可以支持数周的夜间感应。</span><span class="m-to">离地大约 40 到 80 厘米时，脚下的光最自然。它会记住这条路。一次充满，可以支持很长的夜。</span></p>
+      </div>
+      <div class="faq-list" style="padding-bottom:8vh;">
+        <details>
+          <summary class="live-morph" data-start="0.44" data-span="0.16"><span class="m-from">为什么有时会觉得光比脚步更早？</span><span class="m-to">为什么它总比你更早？</span></summary>
+          <p class="live-morph" data-start="0.44" data-span="0.16"><span class="m-from">那是感应，不是预知。把灯放在你夜里通常会经过的地方就可以。路径熟悉之后，交接会变得不容易被察觉。</span><span class="m-to">那是感应，不是预知。可路径一旦熟悉，它就会比你更早走到门口。请继续往下看。</span></p>
+        </details>
+        <details>
+          <summary>还可以把灯带走吗？</summary>
+          <p class="live-morph" data-start="0.46" data-span="0.16"><span class="m-from">可以。体积不大，建议连同底座放入原包装。到了新的房间，给它一两个晚上熟悉路径，感应就会重新稳定下来。</span><span class="m-to">它更愿意留在家里。路径一旦熟悉，就不必再走。</span></p>
+        </details>
+        <details>
+          <summary class="live-morph" data-start="0.48" data-span="0.14"><span class="m-from">夜里如果一直亮着，怎么办？</span><span class="m-to">灯还亮着。门没有锁。</span></summary>
+          <p class="live-morph" data-start="0.48" data-span="0.14"><span class="m-from">可以在底座上停留大约八秒，改为低亮常亮；再同样操作一次，又会回到感应。卧室里我们仍建议使用感应，免得把夜晚打断。</span><span class="m-to">它有时会一直亮着。不要关掉。请继续往下看。</span></p>
+        </details>
       </div>
     </section>
 
@@ -509,6 +624,10 @@
             <span class="m-from">许多人会在第一周留意到，N1 的光总是比脚步更早出现。那是感应，不是预知。把灯放在你夜里通常会经过的地方就可以。</span>
             <span class="m-to">许多人会在第一周留意到，光总是比脚步更早出现。请不要停下，请继续往下看。我们看到你了。我们一直都在看。</span>
           </p>
+          <p class="live-morph" data-start="0.50" data-span="0.14">
+            <span class="m-from">如果微笑在照片里停得稍久一点，那只是曝光的关系。房间还是那间房间，人还坐在床沿原来的位置。</span>
+            <span class="m-to">微笑停得太久了。房间还是那间房间。人还坐在原来的位置。不要看她的眼睛太久。</span>
+          </p>
           <p class="whisper live-morph" data-start="0.56" data-span="0.12"><span class="m-from"></span><span class="m-to">不要看她的眼睛太久。</span></p>
         </div>
         <figure class="portrait-pair">
@@ -516,6 +635,14 @@
           <img class="after" src="images/portrait-hold.jpg" width="1152" height="864" alt="几乎相同的姿势，房间更冷，微笑停得太久。">
         </figure>
       </div>
+      <figure class="pair" style="--fade-start:0.50;--fade-span:0.20;">
+        <img class="before" src="images/window-later.jpg" width="1280" height="720" alt="同一扇窗，夜已经很深。">
+        <img class="after" src="images/room-cold.jpg" width="1280" height="720" alt="同一间卧室，光更冷了。">
+        <figcaption class="caption live-morph" data-start="0.52" data-span="0.14">
+          <span class="m-from">同一间卧室。夜再深一些。</span>
+          <span class="m-to">同一间卧室。灯还亮着。门没有锁。</span>
+        </figcaption>
+      </figure>
     </section>
 
     <section id="break" data-chapter="4">
@@ -533,6 +660,8 @@
         <p class="s2">不要停 &nbsp; 不要停 &nbsp; 不要停</p>
         <p class="s3">她一直看着门口。</p>
         <p class="s4">澄栖</p>
+        <p class="s5">路还在。门还开着。你还在往下看。</p>
+        <p class="s6">夜还很长。</p>
       </div>
     </section>
 
@@ -540,10 +669,12 @@
       <div class="finale-pin">
         <div class="finale-shots">
           <img class="shot shot-hall" src="images/hallway-horror.jpg" width="1280" height="720" alt="深夜的家中走廊，灯只剩下一条细光，尽头的卧室门口站着一个静止的黑影。">
+          <img class="shot shot-near" src="images/hallway-near.jpg" width="1280" height="720" alt="再走近一些，门虚掩着，缝里有一个静止的轮廓。">
           <img class="shot shot-door" src="images/door-silhouette.jpg" width="1280" height="720" alt="门缝里的身影：一条窄门开着，暖光贴着门沿，黑暗中有一个轮廓，一动不动。">
           <img class="shot shot-face" src="images/face-close.jpg" width="1280" height="720" alt="一张凑近镜头的成年面孔，双眼圆睁，瞳孔里映着一条细细的琥珀色灯光。">
         </div>
         <div class="finale-copy">
+          <p class="line l0">再近一点。</p>
           <p class="line l1">夜还很长。</p>
           <p class="line l2">灯，已经不必亮了。</p>
         </div>

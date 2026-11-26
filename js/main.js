@@ -101,66 +101,86 @@
     fp = p;
     root.style.setProperty("--fp", p.toFixed(4));
     var hall = document.querySelector(".shot-hall");
+    var near = document.querySelector(".shot-near");
     var door = document.querySelector(".shot-door");
     var face = document.querySelector(".shot-face");
+    var l0 = document.querySelector(".finale-copy .l0");
     var l1 = document.querySelector(".finale-copy .l1");
     var l2 = document.querySelector(".finale-copy .l2");
 
-    var hallOp, doorOp, faceOp, hallSc, doorSc, faceSc;
-    if (p < 0.28) {
+    var hallOp, nearOp, doorOp, faceOp, hallSc, nearSc, doorSc, faceSc;
+    if (p < 0.22) {
       hallOp = 1;
-      doorOp = clamp((p - 0.18) / 0.12, 0, 1);
+      nearOp = clamp((p - 0.14) / 0.12, 0, 1);
+      doorOp = 0;
       faceOp = 0;
-    } else if (p < 0.70) {
-      hallOp = clamp(1 - (p - 0.28) / 0.16, 0, 1);
+    } else if (p < 0.48) {
+      hallOp = clamp(1 - (p - 0.22) / 0.14, 0, 1);
+      nearOp = 1;
+      doorOp = clamp((p - 0.36) / 0.14, 0, 1);
+      faceOp = 0;
+    } else if (p < 0.78) {
+      hallOp = 0;
+      nearOp = clamp(1 - (p - 0.48) / 0.16, 0, 1);
       doorOp = 1;
       faceOp = 0;
-    } else if (p < 0.74) {
+    } else if (p < 0.82) {
       hallOp = 0;
-      doorOp = clamp(1 - (p - 0.70) / 0.04, 0, 1);
+      nearOp = 0;
+      doorOp = clamp(1 - (p - 0.78) / 0.04, 0, 1);
       faceOp = 0;
     } else {
       hallOp = 0;
+      nearOp = 0;
       doorOp = 0;
       faceOp = 1;
     }
 
-    hallSc = 1 + p * 0.14;
-    doorSc = 1.04 + clamp((p - 0.2) / 0.5, 0, 1) * 0.28;
-    faceSc = 1 + clamp((p - 0.74) / 0.26, 0, 1) * 0.08;
-    if (reduceMotion) hallSc = doorSc = faceSc = 1;
+    hallSc = 1 + p * 0.16;
+    nearSc = 1.02 + clamp((p - 0.14) / 0.4, 0, 1) * 0.18;
+    doorSc = 1.04 + clamp((p - 0.36) / 0.42, 0, 1) * 0.24;
+    faceSc = 1 + clamp((p - 0.82) / 0.18, 0, 1) * 0.08;
+    if (reduceMotion) hallSc = nearSc = doorSc = faceSc = 1;
 
     if (hall) { hall.style.opacity = String(hallOp); hall.style.transform = "scale(" + hallSc + ")"; }
+    if (near) { near.style.opacity = String(nearOp); near.style.transform = "scale(" + nearSc + ")"; }
     if (door) { door.style.opacity = String(doorOp); door.style.transform = "scale(" + doorSc + ")"; }
     if (face) { face.style.opacity = String(faceOp); face.style.transform = "scale(" + faceSc + ")"; }
-    if (l1) l1.classList.toggle("is-on", p > 0.82);
-    if (l2) l2.classList.toggle("is-on", p > 0.90);
+    if (l0) l0.classList.toggle("is-on", p > 0.28 && p < 0.78);
+    if (l1) l1.classList.toggle("is-on", p > 0.86);
+    if (l2) l2.classList.toggle("is-on", p > 0.92);
 
-    if (p >= 0.74 && !stingPlayed) {
+    if (p >= 0.82 && !stingPlayed) {
       stingPlayed = true;
       playSting();
     }
   }
 
+  var lastFlash = 0;
   function maybeFlash(st) {
-    if (flashed || reduceMotion || st < 4) return;
+    if (reduceMotion || st < 3) return;
+    var now = performance.now();
+    var gap = flashed ? 9000 : 1600;
+    if (now - lastFlash < gap) return;
+    if (flashed && Math.random() > 0.08) return;
     flashed = true;
+    lastFlash = now;
     var flash = document.getElementById("flash");
     if (!flash) return;
     flash.style.backgroundImage = "url('images/window-figure.jpg')";
     flash.classList.add("is-on");
-    setTimeout(function () { flash.classList.remove("is-on"); }, 140);
-    setTimeout(function () { flash.style.backgroundImage = "none"; }, 200);
+    setTimeout(function () { flash.classList.remove("is-on"); }, 90);
+    setTimeout(function () { flash.style.backgroundImage = "none"; }, 160);
   }
 
   function maybeShake(st) {
-    if (reduceMotion || st !== 4) return;
+    if (reduceMotion || st < 3) return;
     var now = performance.now();
-    if (now - lastShake < 2800) return;
-    if (Math.random() > 0.018) return;
+    if (now - lastShake < (st >= 4 ? 2400 : 3600)) return;
+    if (Math.random() > (st >= 4 ? 0.06 : 0.03)) return;
     lastShake = now;
     document.body.classList.add("is-shaking");
-    setTimeout(function () { document.body.classList.remove("is-shaking"); }, 300);
+    setTimeout(function () { document.body.classList.remove("is-shaking"); }, st >= 4 ? 320 : 240);
   }
 
   function getStem(id) { return document.getElementById(id); }
@@ -172,7 +192,7 @@
   }
 
   function unlockAudio() {
-    ["a-wind", "a-drone", "a-steps", "a-static"].forEach(function (id) {
+    ["a-wind", "a-drone", "a-steps", "a-static", "a-rumble", "a-hiss"].forEach(function (id) {
       var el = getStem(id);
       if (!el) return;
       el.volume = 0;
@@ -185,21 +205,26 @@
     var drone = getStem("a-drone");
     var steps = getStem("a-steps");
     var stat = getStem("a-static");
+    var rumble = getStem("a-rumble");
+    var hiss = getStem("a-hiss");
+    var stems = [wind, drone, steps, stat, rumble, hiss];
     if (!soundOn) {
-      [wind, drone, steps, stat].forEach(function (el) { if (el) el.volume = 0; });
+      stems.forEach(function (el) { if (el) el.volume = 0; });
       return;
     }
-    if (wind) wind.volume = clamp(0.08 + vu * 0.32, 0, 0.42);
-    if (drone) drone.volume = clamp(vu * 0.55, 0, 0.5);
-    if (steps) steps.volume = st >= 3 ? clamp((vu - 0.3) * 0.7, 0, 0.45) : 0;
-    if (stat) stat.volume = st >= 4 ? clamp((vu - 0.5) * 0.5, 0, 0.22) : 0;
+    if (wind) wind.volume = clamp(0.10 + vu * 0.34, 0, 0.44);
+    if (drone) drone.volume = clamp(vu * 0.62, 0, 0.54);
+    if (rumble) rumble.volume = vu >= 0.16 ? clamp((vu - 0.16) * 0.48, 0, 0.36) : 0;
+    if (stat) stat.volume = vu >= 0.22 ? clamp((vu - 0.22) * 0.55, 0, 0.30) : 0;
+    if (hiss) hiss.volume = vu >= 0.26 ? clamp((vu - 0.26) * 0.42, 0, 0.26) : 0;
+    if (steps) steps.volume = vu >= 0.30 ? clamp((vu - 0.30) * 0.72, 0, 0.46) : 0;
   }
 
   function playSting() {
     if (!soundOn) return;
     var el = getStem("a-sting");
     if (!el) return;
-    el.volume = 0.55;
+    el.volume = 0.38;
     el.currentTime = 0;
     tryPlay(el);
   }
@@ -216,7 +241,7 @@
       unlockAudio();
       setMix(maxU, maxStage);
     } else {
-      ["a-wind", "a-drone", "a-steps", "a-static", "a-sting"].forEach(function (id) {
+      ["a-wind", "a-drone", "a-steps", "a-static", "a-rumble", "a-hiss", "a-sting"].forEach(function (id) {
         var el = getStem(id);
         if (el) el.volume = 0;
       });
@@ -256,6 +281,17 @@
     maybeFlash(stage);
     maybeShake(stage);
     setMix(u, stage);
+    applyParallax();
+  }
+
+  function applyParallax() {
+    if (reduceMotion || window.innerWidth < 900) return;
+    document.querySelectorAll(".pair, .hero-visual, .portrait-pair").forEach(function (el) {
+      var r = el.getBoundingClientRect();
+      if (r.bottom < -80 || r.top > window.innerHeight + 80) return;
+      var mid = r.top + r.height / 2 - window.innerHeight / 2;
+      el.style.setProperty("--par", clamp(mid / window.innerHeight, -1, 1).toFixed(3));
+    });
   }
 
   var ticking = false;
@@ -347,6 +383,48 @@
     });
   }
 
+  function bindNav() {
+    var btn = document.getElementById("nav-toggle");
+    var nav = document.getElementById("site-nav");
+    if (!btn || !nav) return;
+    btn.addEventListener("click", function () {
+      var open = !nav.classList.contains("is-open");
+      nav.classList.toggle("is-open", open);
+      btn.setAttribute("aria-expanded", open ? "true" : "false");
+      setText(btn, open ? "关闭" : "菜单");
+    });
+    nav.querySelectorAll(".links a").forEach(function (a) {
+      a.addEventListener("click", function () {
+        nav.classList.remove("is-open");
+        btn.setAttribute("aria-expanded", "false");
+        setText(btn, "菜单");
+      });
+    });
+  }
+
+  function bindReveals() {
+    var nodes = document.querySelectorAll(
+      "main > section, .feature, .review, .plan, .split, .scene, .story-feature, .pair, .form-wrap, .editorial-body, .spec-wrap, .letter, .log li"
+    );
+    if (reduceMotion) {
+      nodes.forEach(function (n) { n.classList.add("is-in"); });
+      return;
+    }
+    var io = new IntersectionObserver(function (entries) {
+      entries.forEach(function (entry) {
+        if (entry.isIntersecting) {
+          entry.target.classList.add("is-in");
+          io.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.12, rootMargin: "0px 0px -8% 0px" });
+    nodes.forEach(function (n) {
+      if (n.id === "hero") return;
+      n.classList.add("reveal");
+      io.observe(n);
+    });
+  }
+
   function jumpTo(el, inner) {
     if (!el) return;
     var top = el.getBoundingClientRect().top + window.scrollY;
@@ -370,6 +448,10 @@
       jumpTo(document.getElementById("stories"), null);
     } else if (token === "plans") {
       jumpTo(document.getElementById("plans"), null);
+    } else if (token === "rooms") {
+      jumpTo(document.getElementById("rooms"), null);
+    } else if (token === "reprint") {
+      jumpTo(document.getElementById("reprint"), null);
     } else if (token === "2" || token === "quiet" || token === "traces") {
       jumpTo(document.getElementById("traces"), null);
     } else if (token === "3" || token === "notice") {
@@ -410,6 +492,8 @@
     root.setAttribute("data-stage", "1");
     bindSound();
     bindForms();
+    bindNav();
+    bindReveals();
     window.addEventListener("scroll", onScroll, { passive: true });
     window.addEventListener("resize", onScroll, { passive: true });
     window.addEventListener("wheel", onWheel, { passive: false });
