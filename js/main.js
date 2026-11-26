@@ -101,76 +101,22 @@
     fp = p;
     root.style.setProperty("--fp", p.toFixed(4));
     var hall = document.querySelector(".shot-hall");
-    var near = document.querySelector(".shot-near");
-    var door = document.querySelector(".shot-door");
-    var face = document.querySelector(".shot-face");
     var l0 = document.querySelector(".finale-copy .l0");
     var l1 = document.querySelector(".finale-copy .l1");
-    var l2 = document.querySelector(".finale-copy .l2");
-
-    var hallOp, nearOp, doorOp, faceOp, hallSc, nearSc, doorSc, faceSc;
-    if (p < 0.22) {
-      hallOp = 1;
-      nearOp = clamp((p - 0.14) / 0.12, 0, 1);
-      doorOp = 0;
-      faceOp = 0;
-    } else if (p < 0.48) {
-      hallOp = clamp(1 - (p - 0.22) / 0.14, 0, 1);
-      nearOp = 1;
-      doorOp = clamp((p - 0.36) / 0.14, 0, 1);
-      faceOp = 0;
-    } else if (p < 0.78) {
-      hallOp = 0;
-      nearOp = clamp(1 - (p - 0.48) / 0.16, 0, 1);
-      doorOp = 1;
-      faceOp = 0;
-    } else if (p < 0.82) {
-      hallOp = 0;
-      nearOp = 0;
-      doorOp = clamp(1 - (p - 0.78) / 0.04, 0, 1);
-      faceOp = 0;
-    } else {
-      hallOp = 0;
-      nearOp = 0;
-      doorOp = 0;
-      faceOp = 1;
+    var hallOp = 1;
+    var hallSc = 1 + p * 0.08;
+    if (reduceMotion) hallSc = 1;
+    if (hall) {
+      hall.style.opacity = String(hallOp);
+      hall.style.transform = "scale(" + hallSc + ")";
     }
-
-    hallSc = 1 + p * 0.16;
-    nearSc = 1.02 + clamp((p - 0.14) / 0.4, 0, 1) * 0.18;
-    doorSc = 1.04 + clamp((p - 0.36) / 0.42, 0, 1) * 0.24;
-    faceSc = 1 + clamp((p - 0.82) / 0.18, 0, 1) * 0.08;
-    if (reduceMotion) hallSc = nearSc = doorSc = faceSc = 1;
-
-    if (hall) { hall.style.opacity = String(hallOp); hall.style.transform = "scale(" + hallSc + ")"; }
-    if (near) { near.style.opacity = String(nearOp); near.style.transform = "scale(" + nearSc + ")"; }
-    if (door) { door.style.opacity = String(doorOp); door.style.transform = "scale(" + doorSc + ")"; }
-    if (face) { face.style.opacity = String(faceOp); face.style.transform = "scale(" + faceSc + ")"; }
-    if (l0) l0.classList.toggle("is-on", p > 0.28 && p < 0.78);
-    if (l1) l1.classList.toggle("is-on", p > 0.86);
-    if (l2) l2.classList.toggle("is-on", p > 0.92);
-
-    if (p >= 0.82 && !stingPlayed) {
-      stingPlayed = true;
-      playSting();
-    }
+    if (l0) l0.classList.toggle("is-on", p > 0.18);
+    if (l1) l1.classList.toggle("is-on", p > 0.42);
   }
 
-  var lastFlash = 0;
   function maybeFlash(st) {
-    if (reduceMotion || st < 3) return;
-    var now = performance.now();
-    var gap = flashed ? 9000 : 1600;
-    if (now - lastFlash < gap) return;
-    if (flashed && Math.random() > 0.08) return;
-    flashed = true;
-    lastFlash = now;
-    var flash = document.getElementById("flash");
-    if (!flash) return;
-    flash.style.backgroundImage = "url('images/window-figure.jpg')";
-    flash.classList.add("is-on");
-    setTimeout(function () { flash.classList.remove("is-on"); }, 90);
-    setTimeout(function () { flash.style.backgroundImage = "none"; }, 160);
+    /* Intentionally unused: a flash of the figure would pay off the scare
+       before the reader has reached the end and turned back. */
   }
 
   function maybeShake(st) {
@@ -192,7 +138,7 @@
   }
 
   function unlockAudio() {
-    ["a-wind", "a-drone", "a-steps", "a-static", "a-rumble", "a-hiss"].forEach(function (id) {
+    ["a-music", "a-wind", "a-drone", "a-steps", "a-static", "a-rumble", "a-hiss"].forEach(function (id) {
       var el = getStem(id);
       if (!el) return;
       el.volume = 0;
@@ -200,31 +146,49 @@
     });
   }
 
+  /* Music is full while the page is still clean, then crossfades
+     into the dissonant bed as --u rises. At u=0, noise stems are silent. */
+  function musicGain(vu) {
+    if (vu <= 0.12) return 1;
+    if (vu >= 0.40) return 0;
+    return 1 - (vu - 0.12) / 0.28;
+  }
+  function noiseGain(vu) {
+    if (vu <= 0.16) return 0;
+    if (vu >= 0.48) return 1;
+    return (vu - 0.16) / 0.32;
+  }
+
   function setMix(vu, st) {
+    var music = getStem("a-music");
     var wind = getStem("a-wind");
     var drone = getStem("a-drone");
     var steps = getStem("a-steps");
     var stat = getStem("a-static");
     var rumble = getStem("a-rumble");
     var hiss = getStem("a-hiss");
-    var stems = [wind, drone, steps, stat, rumble, hiss];
+    var stems = [music, wind, drone, steps, stat, rumble, hiss];
     if (!soundOn) {
       stems.forEach(function (el) { if (el) el.volume = 0; });
       return;
     }
-    if (wind) wind.volume = clamp(0.10 + vu * 0.34, 0, 0.44);
-    if (drone) drone.volume = clamp(vu * 0.62, 0, 0.54);
-    if (rumble) rumble.volume = vu >= 0.16 ? clamp((vu - 0.16) * 0.48, 0, 0.36) : 0;
-    if (stat) stat.volume = vu >= 0.22 ? clamp((vu - 0.22) * 0.55, 0, 0.30) : 0;
-    if (hiss) hiss.volume = vu >= 0.26 ? clamp((vu - 0.26) * 0.42, 0, 0.26) : 0;
-    if (steps) steps.volume = vu >= 0.30 ? clamp((vu - 0.30) * 0.72, 0, 0.46) : 0;
+    var mg = musicGain(vu);
+    var ng = noiseGain(vu);
+    if (watched) mg = 0;
+    if (music) music.volume = mg * 0.56;
+    if (wind) wind.volume = ng * 0.22;
+    if (drone) drone.volume = ng * (watched ? 0.48 : 0.42);
+    if (rumble) rumble.volume = ng * (watched ? 0.40 : 0.32);
+    if (stat) stat.volume = ng * 0.22;
+    if (hiss) hiss.volume = ng * (watched ? 0.28 : 0.20);
+    if (steps) steps.volume = ng > 0.35 ? (ng - 0.35) / 0.65 * 0.36 : 0;
   }
 
   function playSting() {
     if (!soundOn) return;
     var el = getStem("a-sting");
     if (!el) return;
-    el.volume = 0.38;
+    el.volume = 0.28;
     el.currentTime = 0;
     tryPlay(el);
   }
@@ -235,13 +199,13 @@
     if (btn) {
       btn.classList.toggle("is-on", on);
       btn.setAttribute("aria-pressed", on ? "true" : "false");
-      setText(btn, on ? "声音 开" : "声音 关");
+      setText(btn, on ? "音乐 开" : "音乐 关");
     }
     if (on) {
       unlockAudio();
       setMix(maxU, maxStage);
     } else {
-      ["a-wind", "a-drone", "a-steps", "a-static", "a-rumble", "a-hiss", "a-sting"].forEach(function (id) {
+      ["a-music", "a-wind", "a-drone", "a-steps", "a-static", "a-rumble", "a-hiss", "a-sting"].forEach(function (id) {
         var el = getStem(id);
         if (el) el.volume = 0;
       });
@@ -280,8 +244,42 @@
     applyFinale(Math.max(fpNow, maxFp));
     maybeFlash(stage);
     maybeShake(stage);
+    checkWatch();
     setMix(u, stage);
     applyParallax();
+  }
+
+  /* Scare is armed only after the reader truly reaches (or nearly
+     reaches) the bottom. The first ~0.42vh of scroll-up still does
+     nothing; the scare fires after a total of ~1.05vh of scroll-up. */
+  var END_NEAR_VH = 0.08;
+  var TRIGGER_VH = 1.05;
+  var reachedEnd = false;
+  var watched = false;
+
+  function maxScrollY() {
+    return Math.max(0, document.documentElement.scrollHeight - window.innerHeight);
+  }
+  function fromBottom() {
+    return maxScrollY() - window.scrollY;
+  }
+  function checkWatch() {
+    var H = window.innerHeight || 1;
+    var from = fromBottom();
+    if (from <= H * END_NEAR_VH) reachedEnd = true;
+    if (!reachedEnd || watched) return;
+    if (from >= H * TRIGGER_VH) triggerWatch();
+  }
+  function triggerWatch() {
+    if (watched) return;
+    watched = true;
+    root.classList.add("is-watched");
+    if (soundOn) {
+      var music = getStem("a-music");
+      if (music) music.volume = 0;
+      playSting();
+    }
+    setMix(maxU, maxStage);
   }
 
   function applyParallax() {
@@ -458,14 +456,18 @@
       jumpTo(document.getElementById("notice"), null);
     } else if (token === "4" || token === "break") {
       jumpTo(document.getElementById("break"), null);
-    } else if (token === "hall") {
-      jumpTo(finale, 0.12);
-    } else if (token === "door") {
-      jumpTo(finale, 0.48);
-    } else if (token === "5" || token === "face") {
-      jumpTo(finale, 0.92);
+    } else if (token === "hall" || token === "5" || token === "end" || token === "bottom") {
+      window.scrollTo({ top: maxScrollY(), left: 0, behavior: "instant" });
+    } else if (token === "hold" || token === "back-a-little") {
+      window.scrollTo({ top: maxScrollY(), left: 0, behavior: "instant" });
+      tick();
+      window.scrollTo({ top: Math.max(0, maxScrollY() - window.innerHeight * 0.40), left: 0, behavior: "instant" });
+    } else if (token === "watch" || token === "scare") {
+      window.scrollTo({ top: maxScrollY(), left: 0, behavior: "instant" });
+      tick();
+      window.scrollTo({ top: Math.max(0, maxScrollY() - window.innerHeight * 1.10), left: 0, behavior: "instant" });
     } else if (token === "back") {
-      jumpTo(document.getElementById("break"), null);
+      window.scrollTo({ top: maxScrollY(), left: 0, behavior: "instant" });
       tick();
       setTimeout(function () {
         window.scrollTo({ top: 0, left: 0, behavior: "instant" });

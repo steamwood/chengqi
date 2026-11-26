@@ -16,6 +16,10 @@
   <div id="fx-scan" aria-hidden="true"></div>
   <div id="fx-ca" aria-hidden="true"></div>
   <p class="leave-hint">门还开着</p>
+  <div id="watch" aria-hidden="true">
+    <img src="images/watch-behind.jpg" width="1280" height="720" alt="">
+    <p class="watch-line">它一直在看。</p>
+  </div>
 
   <audio id="a-wind" class="stem" src="audio/wind.mp3" loop preload="auto"></audio>
   <audio id="a-drone" class="stem" src="audio/drone.mp3" loop preload="auto"></audio>
@@ -23,6 +27,7 @@
   <audio id="a-static" class="stem" src="audio/static.mp3" loop preload="auto"></audio>
   <audio id="a-rumble" class="stem" src="audio/rumble.mp3" loop preload="auto"></audio>
   <audio id="a-hiss" class="stem" src="audio/hiss.mp3" loop preload="auto"></audio>
+  <audio id="a-music" class="stem" src="audio/night.mp3" loop preload="auto"></audio>
   <audio id="a-sting" class="stem" src="audio/sting.mp3" preload="auto"></audio>
 
   <header id="site-nav">
@@ -40,7 +45,7 @@
       <a href="#story" id="nav-story" class="live-morph" data-start="0.54" data-span="0.14"><span class="m-from">故事</span><span class="m-to">听过</span></a>
       <a href="#plans" id="nav-order" class="live-morph" data-start="0.48" data-span="0.14"><span class="m-from">订购</span><span class="m-to">留下</span></a>
     </nav>
-    <button type="button" id="sound-toggle" aria-pressed="false" aria-label="声音开关，默认关闭">声音 关</button>
+    <button type="button" id="sound-toggle" aria-pressed="false" aria-label="音乐开关，默认关闭">音乐 关</button>
   </header>
 
   <main id="top">
@@ -668,15 +673,11 @@
     <section id="finale" data-chapter="5" aria-label="结尾">
       <div class="finale-pin">
         <div class="finale-shots">
-          <img class="shot shot-hall" src="images/hallway-horror.jpg" width="1280" height="720" alt="深夜的家中走廊，灯只剩下一条细光，尽头的卧室门口站着一个静止的黑影。">
-          <img class="shot shot-near" src="images/hallway-near.jpg" width="1280" height="720" alt="再走近一些，门虚掩着，缝里有一个静止的轮廓。">
-          <img class="shot shot-door" src="images/door-silhouette.jpg" width="1280" height="720" alt="门缝里的身影：一条窄门开着，暖光贴着门沿，黑暗中有一个轮廓，一动不动。">
-          <img class="shot shot-face" src="images/face-close.jpg" width="1280" height="720" alt="一张凑近镜头的成年面孔，双眼圆睁，瞳孔里映着一条细细的琥珀色灯光。">
+          <img class="shot shot-hall" src="images/hallway-mid.jpg" width="1280" height="720" alt="同一条走廊，夜里很静，灯还亮着，尽头的门口空着。">
         </div>
         <div class="finale-copy">
-          <p class="line l0">再近一点。</p>
-          <p class="line l1">夜还很长。</p>
-          <p class="line l2">灯，已经不必亮了。</p>
+          <p class="line l0">夜还很长。</p>
+          <p class="line l1">灯还亮着。</p>
         </div>
       </div>
     </section>
